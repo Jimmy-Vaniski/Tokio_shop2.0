@@ -1,0 +1,27 @@
+{% extends 'core/base.html' %}
+
+{% block title %}
+    {{ product.title }}
+{% endblock %}
+
+{% block content %}
+    {% if product.image %}
+        <div class="image mb-4">
+            <img src="{{ product.image.url }}" alt="Foto produto {{ product.image.url }}"
+                class="max-w-[350px] max-h-[400px]">
+        </div>
+    {% endif %}
+
+    <h1 class="text-2xl">{{ product.title }}</h1>
+    <p class="text-2xl text-blue-600">
+        € {{ product.price }} --{% firstof product.user.get_full_name product.user.username %}
+    </p>
+
+    {% if product.description %}
+        <p class="mt-4">
+            {{ product.description }}
+        </p>
+    {% endif %}
+{% endblock %}
+
+
