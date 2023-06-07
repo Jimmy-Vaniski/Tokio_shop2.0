@@ -10,10 +10,12 @@ def vendor_details(request, pk):
     return render(request, 'userprofile/vendor_details.html', {'user': user})
 
 
+def my_shop(request):
+    return render(request, 'userprofile/my_shop.html')
+
 
 def my_account(request):
     return render(request, 'userprofile/my_account.html')
-
 
 
 def register(request):
