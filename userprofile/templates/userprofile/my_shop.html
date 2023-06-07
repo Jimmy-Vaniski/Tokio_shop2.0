@@ -21,7 +21,7 @@ Meu cadastro
         {% for product in request.user.products.all %}
             <div class="product w-1/3 p-2">
                 <div class="p-4 bg-gray-50" style="width: 200px; height: 250px; position: relative;">
-                    <a href="{% url 'product_detail' product.category.slug product.slug %}">
+                    <a href="{% url 'edit_product' product.id %}">
                         {% if product.image %}
                             <div class="image" style="position: absolute; top: 0; left: 0; width: 100%; height: 80%;">
                                 <img src="{{ product.image.url }}" alt="Foto produto {{ product.image.url }}" class="max-w-full max-h-full">
