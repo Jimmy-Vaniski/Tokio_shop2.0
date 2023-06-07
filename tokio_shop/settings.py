@@ -14,6 +14,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGOUT_REDIRECT_URL = 'frontpage'
+
+LOGIN_REDIRECT_URL = 'my_account'
 
 # Application definition
 

@@ -6,10 +6,13 @@ from core.views import frontpage, about
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('about', about, name='about'),
+    path('admin/', admin.site.urls),
+
+    path('', include('userprofile.urls')),
     path('', include('shop.urls')),
     path('', frontpage, name='frontpage'),
 
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # concatenar para extender url às imagens
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# concatenar para extender url às imagens

@@ -1,0 +1,19 @@
+
+{% extends 'core/base.html' %}
+
+{% block title %}
+
+Meu cadastro
+
+{% endblock %}
+
+
+
+{% block content %}
+
+    <h1 class="text-2xl">Pagina da minha conta ou do meu cadastro </h1>
+
+    <a href="{% url 'logout' %}" class="mt-8 inline-block py-4 px-8 bg-red-400 text-white">Sair</a>
+
+
+{% endblock %}

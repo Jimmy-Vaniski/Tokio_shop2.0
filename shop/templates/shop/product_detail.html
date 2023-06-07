@@ -6,15 +6,16 @@
 
 {% block content %}
     {% if product.image %}
-        <div class="image mb-4">
+        <div class="image mb-4" style="width: 350px; height: 400px;">
             <img src="{{ product.image.url }}" alt="Foto produto {{ product.image.url }}"
-                class="max-w-[350px] max-h-[400px]">
+                style="max-width: 100%; max-height: 100%;">
         </div>
     {% endif %}
 
     <h1 class="text-2xl">{{ product.title }}</h1>
-    <p class="text-2xl text-blue-600">
-        € {{ product.price }} --{% firstof product.user.get_full_name product.user.username %}
+    <p class="text-2xl text-blue-600" style="margin-top: 8px;">
+        € {{ product.price }} --
+        <a href="{% url 'vendor_details' product.user.id %}">{% firstof product.user.get_full_name product.user.username %}</a>
     </p>
 
     {% if product.description %}
