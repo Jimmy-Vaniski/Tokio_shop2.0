@@ -1,17 +1,19 @@
 
 {% extends 'core/base.html' %}
 
-{% block title %}
-
-Meu cadastro
-
-{% endblock %}
-
-
+{% block title %}Meu cadastro{% endblock %}
 
 {% block content %}
 
     <h1 class="text-2xl">Minha loja </h1>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="px-8 py-4 bg-green-500 text-2xl alert alert-{{message.tags}}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
     <a href="{% url 'add_product' %}" class="mt-6 inline-block py-4 px-8 bg-green-500">Adcionar Produtos</a>
     <h2 class="mt-6 text-xl">Meus Produtos </h2>
 

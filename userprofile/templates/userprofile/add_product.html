@@ -13,7 +13,18 @@
     <form method="post" action="." enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <button class="py-4 px-8 bg-green-500 hover:bg-green-800 ">SALVAR</button>
+        <br>
+        <hr>
+        <br>
+        {% if title == "Editar Produto" %}
+            <button class="py-4 px-8 bg-green-500 hover:bg-green-800">EDITAR</button>
+        {% else %}
+            <button class="py-4 px-8 bg-green-500 hover:bg-green-800">SALVAR</button>
+        {% endif %}
+
     </form>
+    {% if title == 'Editar Produto' %}
+        <a href='#' class="mt-3 inline-block py-4 px-8 bg-red-500 hover:bg-red-800 ">DELETAR</a>
+    {% endif %}
 
 {% endblock %}
