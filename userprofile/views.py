@@ -7,7 +7,7 @@ from django.utils.text import slugify
 from .models import UserProfile
 from shop.forms import ProductForm
 from shop.models import Product, Category
-
+from django.contrib import messages
 
 def vendor_details(request, pk):
     user = User.objects.get(pk=pk)
@@ -29,16 +29,24 @@ def add_product(request):
             product.user = request.user
             product.slug = slugify(title)
             product.save()
+            messages.success(request, 'Produto adicionado com sucesso!')
             return redirect('my_shop')
     else:
         form = ProductForm()
-    return render(request, 'userprofile/add_product.html', {'title': 'Editar Produto', 'form': form})
+    return render(request, 'userprofile/add_product.html', {'title': 'Adicionar Produto', 'form': form})
 
 
 @login_required
 def edit_product(request, pk):
     product = Product.objects.filter(user=request.user).get(pk=pk)
-    form = ProductForm()
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Produto editado com sucesso!')
+            return redirect('my_shop')
+    else:
+        form = ProductForm(instance=product)
     return render(request, 'userprofile/add_product.html', {'title': 'Editar Produto', 'form': form})
 
 
