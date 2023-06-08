@@ -10,7 +10,7 @@
 
     <h2 class="text-2xl text-green-600">Resultado da pesquisa  "{{ query }}": </h2>
     {% if products %}
-        {% include 'loja/partials/product.html' %}
+    {% include 'shop/partials/products.html' %}
     {% else %}
          <img src="/media/logo/no_found.png" alt="nao encontrado">
     {% endif %}

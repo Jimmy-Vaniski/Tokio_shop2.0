@@ -36,7 +36,7 @@ def add_product(request):
             return redirect('my_shop')
     else:
         form = ProductForm()
-    return render(request, 'userprofile/product_form.html', {'title': 'Adicionar Produto', 'form': form})
+    return render(request, 'userprofile/add_product.html', {'title': 'Adicionar Produto', 'form': form})
 
 
 @login_required
@@ -50,7 +50,7 @@ def edit_product(request, pk):
             return redirect('my_shop')
     else:
         form = ProductForm(instance=product)
-    return render(request, 'userprofile/product_form.html', {'title': 'Editar Produto', 'product': product, 'form': form})
+    return render(request, 'userprofile/add_product.html', {'title': 'Editar Produto', 'product': product, 'form': form})
 
 
 @login_required
@@ -59,7 +59,7 @@ def delete_product(request, pk):
     product.status = Product.DELETED
     product.save()
     messages.success(request, 'Produto apagado com sucesso!')
-    return redirect('shop')
+    return redirect('my_shop')
 
 @login_required
 def my_account(request):
