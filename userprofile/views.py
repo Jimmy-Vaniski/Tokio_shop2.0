@@ -4,19 +4,22 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.text import slugify
-from .models import UserProfile
-from shop.forms import ProductForm
 from shop.models import Product, Category
+from .models import UserProfile
 from django.contrib import messages
+from shop.forms import ProductForm
+
+
 
 def vendor_details(request, pk):
     user = User.objects.get(pk=pk)
-
-    return render(request, 'userprofile/vendor_details.html', {'user': user})
+    products = user.products.filter(status=Product.ACTIVATED)
+    return render(request, 'userprofile/vendor_details.html', {'user': user, 'products': products})
 
 @login_required
 def my_shop(request):
-    return render(request, 'userprofile/my_shop.html')
+    products = request.user.products.exclude(status=Product.DELETED)
+    return render(request, 'userprofile/my_shop.html', {'products': products})
 
 
 @login_required
@@ -33,7 +36,7 @@ def add_product(request):
             return redirect('my_shop')
     else:
         form = ProductForm()
-    return render(request, 'userprofile/add_product.html', {'title': 'Adicionar Produto', 'form': form})
+    return render(request, 'userprofile/product_form.html', {'title': 'Adicionar Produto', 'form': form})
 
 
 @login_required
@@ -47,11 +50,20 @@ def edit_product(request, pk):
             return redirect('my_shop')
     else:
         form = ProductForm(instance=product)
-    return render(request, 'userprofile/add_product.html', {'title': 'Editar Produto', 'form': form})
+    return render(request, 'userprofile/product_form.html', {'title': 'Editar Produto', 'product': product, 'form': form})
 
 
 @login_required
+def delete_product(request, pk):
+    product = Product.objects.filter(user=request.user).get(pk=pk)
+    product.status = Product.DELETED
+    product.save()
+    messages.success(request, 'Produto apagado com sucesso!')
+    return redirect('shop')
+
+@login_required
 def my_account(request):
+
     return render(request, 'userprofile/my_account.html')
 
 

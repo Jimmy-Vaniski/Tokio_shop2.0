@@ -14,6 +14,16 @@ class Category(models.Model):
 
 
 class Product(models.Model):
+    SKETCH = 'rascunho'
+    WAITING_APPROVAL = 'aguardando aprovação'
+    ACTIVATED = 'ativado'
+    DELETED = 'apagado'
+    STATUS_CHOICES = (
+        (SKETCH, 'Rascunho'),
+        (WAITING_APPROVAL, 'Aguardando aprovação'),
+        (ACTIVATED, 'Ativado'),
+        (DELETED, 'Apagado'),
+    )
     user = models.ForeignKey(User, related_name="products", on_delete=models.CASCADE)
     category = models.ForeignKey(Category, related_name="products", on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
@@ -25,6 +35,7 @@ class Product(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     stock = models.PositiveIntegerField(default=0)
     shelf = models.CharField(max_length=50, blank=True, null=True)
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default=ACTIVATED)
 
     class Meta:
         ordering = ('-created_at',)  # ordenar exibicao por data de criação
