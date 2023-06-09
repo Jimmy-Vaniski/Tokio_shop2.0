@@ -9,4 +9,5 @@ class ProductForm(forms.ModelForm):
         widgets = {
             'category': forms.Select(attrs={'class': 'p-4 border-radios border-green-300'}),
 
+
         }
