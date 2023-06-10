@@ -14,12 +14,18 @@
         <a href="/" class="text-2xl text-white"><img src="/media/logo/tokio_shop.png" width="90" height="90"></a>
     </div>
 
-    <div class="search">
-        <form method="get" action="/search/">
-            <input type="search" name="query" placeholder="Search">
-            <button class="bg-green-600 text-white justify-between ">Search</button>
+    <div class="search flex">
+        <form method="get" action="/search/" class="flex">
+            <input type="search" name="query" placeholder="Search" class="py-2 px-3 rounded-l-lg">
+            <button class="bg-transparent text-yellow-500 flex items-center justify-center rounded-r-lg ml-2">
+                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17.72 16.31l4.67 4.68a1 1 0 0 1-1.41 1.41l-4.68-4.67a8 8 0 1 1 1.42-1.42zM11 16a5 5 0 1 0 0-10 5 5 0 0 0 0 10z"/>
+                </svg>
+            </button>
         </form>
     </div>
+
+
 
     <div class="menu flex space-x-4">
         {% menu %}
