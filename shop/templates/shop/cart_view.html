@@ -1,0 +1,20 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Carrinho{% endblock %}
+
+{% block content %}
+
+<h1 class="mb-4 text-2xl">Meu carrinho </h1>
+    {% for item in cart %}
+        <div class="px-4 py-4 mb-2 bg-orange-200">
+            <p><b>Título: </b>{{item.product.title}}</p>
+            <p><b>Quantidade: </b>{{item.quantity}}</p>
+            <a href="{% url 'change_quantity' item.product.id %}?action=increase">+ 1</a>
+            <a href="{% url 'change_quantity' item.product.id %}?action=decrease">- 1</a>
+            <br>
+            <a href="{% url 'remove_from_cart' item.product.id %}">Deletar produto carrinho</a>
+        </div>
+    {% endfor %}
+<br>
+<strong>Total: </strong> {{cart.get_total_values}}
+{% endblock %}
