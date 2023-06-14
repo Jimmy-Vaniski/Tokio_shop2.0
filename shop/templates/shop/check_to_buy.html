@@ -1,0 +1,20 @@
+{% extends 'core/base.html' %}
+
+{% block title %}
+Finalizar compra
+{% endblock %}
+
+
+
+{% block content %}
+
+<h1 class="mb-6 text-2xl">Finalizar compra </h1>
+
+<h2 class="text-2xl text-green-800">Total a pagar: € {{cart.get_total_values|floatformat:2}} </h2>
+    <form method="post" action=".">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="px-3 py-3 text-2xl text-white inline-block bg-green-800 rounded-xl mt-2">Finalizar Compra</button>
+    </form>
+{% endblock %}
+

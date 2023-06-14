@@ -1,6 +1,12 @@
 from django import forms
-from .models import Product
+from .models import Product, Order
 from django.utils.text import slugify
+
+
+class OrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ('first_name', 'last_name', 'shipping_address', 'postal_code', 'city', 'county',  'goods' )
 
 
 class ProductForm(forms.ModelForm):

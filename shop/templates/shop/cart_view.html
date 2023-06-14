@@ -4,17 +4,44 @@
 
 {% block content %}
 
-<h1 class="mb-4 text-2xl">Meu carrinho </h1>
+    <h1 class="mb-4 text-2xl">Meu carrinho</h1>
     {% for item in cart %}
-        <div class="px-4 py-4 mb-2 bg-orange-200">
-            <p><b>Título: </b>{{item.product.title}}</p>
-            <p><b>Quantidade: </b>{{item.quantity}}</p>
-            <a href="{% url 'change_quantity' item.product.id %}?action=increase">+ 1</a>
-            <a href="{% url 'change_quantity' item.product.id %}?action=decrease">- 1</a>
-            <br>
-            <a href="{% url 'remove_from_cart' item.product.id %}">Deletar produto carrinho</a>
+        <div class="px-4 py-4 mb-2 bg-orange-100">
+            <div class="flex items-center">
+                <div class="">
+                    <img src="{{ item.product.get_thumbnail }}"class="45">
+                </div>
+                <div class="pl-6">
+                    <h2 class="text-2xl font-bold">{{ item.product.title }}</h2>
+                    <div class="text-2xl text-red-800">€ {{ item.product.price|floatformat:2 }}</div>
+                    <div class="text-2xl text-red-800">Total: € {{ item.total_price|floatformat:2 }}</div>
+                    <div class="mt-4 flex mb-1">
+                        <a href="{% url 'change_quantity' item.product.id %}?action=increase"
+                           class="p-2 rounded-xl bg-orange-500 text-white flex items-center justify-center w-12 h-12">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                        <span class="text-2xl mx-4 mt-2">{{ item.quantity }}</span>
+                        <a href="{% url 'change_quantity' item.product.id %}?action=decrease"
+                           class="p-2 rounded-xl bg-orange-500 text-white flex items-center justify-center w-12 h-12">
+                            <i class="fas fa-minus"></i>
+                        </a>
+                    </div>
+                    <a class="text-2xl px-2" href="{% url 'remove_from_cart' item.product.id %}">Remover
+                        <i class="fas fa-trash-alt text-red-500 text-2xl"></i>
+                    </a>
+
+                </div>
+            </div>
         </div>
     {% endfor %}
-<br>
-<strong>Total: </strong> {{cart.get_total_values}}
+    <hr class="mt-4 bm-4">
+    <div class="bg-green-100 p-4 rounded">
+        <strong class="text-2xl">Total: <h1 class="text-2xl">€ {{ cart.get_total_values|floatformat:2 }}</h1></strong>
+    </div>
+    <hr class="bm-4">
+
+
+            <a href="{% url 'check_to_buy' %}" class="px-3 py-3 text-2xl text-white inline-block bg-green-800 rounded-xl mt-2">Comprar</a>
+
 {% endblock %}
+

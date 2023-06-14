@@ -37,6 +37,10 @@ class Cart(object):
                 self.remove_item(product_id)
         self.save()
 
+    def clear(self):
+        del self.session[settings.CART_SESSION_ID]
+        self.session.modified = True
+
     def remove_item(self, product_id):
         if product_id in self.cart:
             del self.cart[product_id]
@@ -46,3 +50,4 @@ class Cart(object):
         for prod in self.cart.keys():
             self.cart[str(prod)]['product'] = Product.objects.get(pk=prod)
         return float(sum(item['product'].price * item['quantity'] for item in self.cart.values()))
+

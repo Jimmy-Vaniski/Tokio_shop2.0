@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product, Category
+from django.contrib.auth.decorators import login_required
+from .models import Product, Category, Order, OrderItem
 from django.db.models import Q
 from .cart import Cart
+from .forms import OrderForm
 
 
 def add_to_cart(request, product_id):
@@ -9,6 +11,36 @@ def add_to_cart(request, product_id):
     cart.add_item(product_id)  # ATENTION
 
     return redirect('cart_view')
+
+
+@login_required
+def check_to_buy(request):
+    cart = Cart(request)
+    if request.method == 'POST':
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            total_price = 0
+            for item in cart:
+                product = item['product']
+                total_price += product.price * int(item['quantity'])
+
+            order = form.save(commit=False)
+            order.created_by = request.user
+            order.total_amount = total_price
+            order.save()
+
+            for item in cart:
+                product = item['product']
+                quantity = int(item['quantity'])
+                price = product.price * quantity
+
+                item = OrderItem.objects.create(order=order, product=product, price=price, quantity=quantity)
+                cart.clear()
+
+                return redirect('my_account')
+    else:
+        form = OrderForm()
+    return render(request, 'shop/check_to_buy.html', {'cart': cart, 'form': form})
 
 
 def change_quantity(request, product_id):
