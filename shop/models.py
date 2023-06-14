@@ -77,7 +77,7 @@ class Product(models.Model):
 class Order(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    shipping_address = models.TextField()
+    shipping_address = models.CharField(max_length=250)
     postal_code = models.CharField(max_length=50)
     city = models.CharField(max_length=200)
     county = models.CharField(max_length=200)
