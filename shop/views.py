@@ -57,7 +57,7 @@ def change_quantity(request, product_id):
 
 def remove_from_cart(request, product_id):
     cart = Cart(request)
-    cart.remove_item(product_id) # ATENTION
+    cart.remove_item(product_id)  # ATENTION
 
     return redirect('cart_view')
 
