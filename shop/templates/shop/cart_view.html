@@ -5,6 +5,7 @@
 {% block content %}
 
     <h1 class="mb-4 text-2xl">Meu carrinho</h1>
+    {% if cart|length %}
     {% for item in cart %}
         <div class="px-4 py-4 mb-2 bg-orange-100">
             <div class="flex items-center">
@@ -41,6 +42,13 @@
     <hr class="bm-4">
 
     <a href="{% url 'check_to_buy' %}" class="px-3 py-3 text-2xl text-white inline-block bg-green-800 rounded-xl mt-2">Comprar</a>
+{% else %}
+    <div class="px-3 py-3 bg-black rounded-2xl">
+        <h1 class="text-orange-400">VOCÊ NÃO TEM PRODUTOS NESTA LISTA AINDA...</h1>
 
+    </div>
+    <iframe  src="https://giphy.com/embed/3o6Mb9oeV59vc1XeEw" width="480" height="362" frameBorder="0"
+             class="giphy-embed py-5" allowFullScreen></iframe><p></p>
+{% endif %}
 {% endblock %}
 
