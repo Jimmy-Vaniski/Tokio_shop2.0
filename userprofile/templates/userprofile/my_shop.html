@@ -1,48 +1,119 @@
-
 {% extends 'core/base.html' %}
 
-{% block title %}Meu cadastro{% endblock %}
+{% block title %}Área do Fornecedor{% endblock %}
 
 {% block content %}
-
-    <h1 class="text-2xl">Minha loja </h1>
-
-{% if messages %}
-    {% for message in messages %}
-        <div class="px-8 py-4 bg-green-500 text-2xl alert alert-{{message.tags}}">
-            {{ message }}
-        </div>
-    {% endfor %}
-{% endif %}
-    <a href="{% url 'add_product' %}" class="mt-6 inline-block py-4 px-8 bg-green-500">Adcionar Produtos</a>
-    <h2 class="mt-6 text-xl">Meus Produtos </h2>
-
-
-{% if products %}
-    <div class="flex flex-wrap">
-        {% for product in products %}
-            <div class="product w-1/3 p-2">
-                <div class="p-4 bg-gray-50" style="width: 200px; height: 250px; position: relative;">
-                    <a href="{% url 'edit_product' product.id %}">
-                        {% if product.image %}
-                            <div class="image" style="position: absolute; top: 0; left: 0; width: 100%; height: 80%;">
-                                <img src="{{ product.image.url }}" alt="Foto produto {{ product.image.url }}" class="max-w-full max-h-full">
-                            </div>
-                        {% endif %}
-                        <div class="details" style="position: absolute; bottom: 0; left: 0; width: 100%; height: 20%;">
-                            <h2 class="text-xl">{{ product.title }}</h2>
-                            <p class="text-xm text-blue-600">€ {{ product.get_display_price}}</p>
-                            <hr class="my-3">
-                            <p><strong>Status: </strong>{{product.status}}</p>
-                        </div>
-                    </a>
+    <div class="flex">
+        <!-- Menu Lateral -->
+        <div class="w-1/4">
+            <div class="p-4">
+                <h1 class="text-2xl font-bold">Menu</h1>
+                <div class="mt-2">
+                    <button class="block w-full py-2 px-4 bg-black hover:bg-orange-400 text-white text-2xl rounded-lg my-1" id="btnMeusProdutos">Produtos</button>
+                    <button class="block w-full py-2 px-4 bg-black hover:bg-orange-400 text-white text-2xl rounded-lg my-1" id="btnMeusPedidos">Pedidos</button>
+                    <button class="block w-full py-2 px-4 bg-black hover:bg-orange-400 text-white text-2xl rounded-lg my-1" id="btnAdicionarProduto">Add Produto</button>
+                    <button class="block w-full py-2 px-4 bg-black hover:bg-orange-400 text-white text-2xl rounded-lg my-1" id="btnEstatisticas">Estatísticas</button>
                 </div>
             </div>
-        {% endfor %}
+        </div>
+
+        <!-- Conteúdo -->
+        <div class="w-3/4 p-4">
+            <div id="meusProdutos" style="display: none;">
+                <h2 class="text-2xl">Meus Produtos</h2>
+
+                {% if products %}
+                    <div class="grid grid-cols-3 gap-4 mt-4">
+                        {% for product in products %}
+                            <div class="product bg-gray-50 p-4 rounded-lg">
+                                <a href="{% url 'edit_product' product.id %}">
+                                    {% if product.image %}
+                                        <div class="image mb-4">
+                                            <img src="{{ product.image.url }}" alt="Foto produto {{ product.image.url }}" class="max-w-full max-h-full">
+                                        </div>
+                                    {% endif %}
+                                    <div class="details">
+                                        <h3 class="text-xl">{{ product.title }}</h3>
+                                        <p class="text-sm text-blue-600">€ {{ product.get_display_price }}</p>
+                                        <hr class="my-2">
+                                        <p><strong>Status: </strong>{{ product.status }}</p>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <iframe src="https://giphy.com/embed/FwMKXv1DQfZwn56lJO" width="280" height="184"
+                            frameborder="0" class="giphy-embed" allowfullscreen></iframe>
+                    <p class="mt-4 py-4 px-8 bg-gray-300">Você ainda não tem produtos em sua lista.</p>
+                {% endif %}
+            </div>
+
+            <div id="meusPedidos" style="display: none;">
+                <h2 class="text-2xl">Meus Pedidos</h2>
+
+                {% if order_items %}
+                    <div class="mt-4">
+                        <div class="flex">
+                            <div class="w-1/5 text-center"><strong>ID</strong></div>
+                            <div class="w-1/5 text-center"><strong>Local</strong></div>
+                            <div class="w-2/5 text-center"><strong>Título</strong></div>
+                            <div class="w-1/5 text-center"><strong>Quantidade</strong></div>
+                            <div class="w-1/5 text-center"><strong>Preço</strong></div>
+                        </div>
+                        {% for order_item in order_items %}
+                            <div class="flex mt-2">
+                                <div class="w-1/5 text-center">{{ order_item.id }}</div>
+                                <div class="w-1/5 text-center">{{ order_item.product.shelf }}</div>
+                                <div class="w-2/5 text-center">{{ order_item.product.title }}</div>
+                                <div class="w-1/5 text-center">{{ order_item.quantity }}</div>
+                                <div class="w-1/5 text-center">€ {{ order_item.price }}</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+            </div>
+
+            <div id="adicionarProduto" style="display: none;">
+                <h2 class="text-2xl">Adicionar Produto</h2>
+                <a href="{% url 'add_product' %}" class="mt-4 inline-block py-4 px-8 bg-green-500 rounded-lg">Adicionar Produto</a>
+            </div>
+
+            <div id="estatisticas" style="display: none;">
+                <h2 class="text-2xl">Estatísticas</h2>
+                <!-- Aqui você pode adicionar o código para exibir o gráfico de estatísticas -->
+            </div>
+        </div>
     </div>
-    {% else %}
-        <iframe src="https://giphy.com/embed/FwMKXv1DQfZwn56lJO" width="280" height="184"
-                frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
-        <p class="mt-4 py-4 px-8 bg-gray-300">Você ainda não tem produtos em sua lista.</p>
-    {% endif %}
+
+    <script>
+        document.getElementById('btnMeusProdutos').addEventListener('click', function() {
+            document.getElementById('meusProdutos').style.display = 'block';
+            document.getElementById('meusPedidos').style.display = 'none';
+            document.getElementById('adicionarProduto').style.display = 'none';
+            document.getElementById('estatisticas').style.display = 'none';
+        });
+
+        document.getElementById('btnMeusPedidos').addEventListener('click', function() {
+            document.getElementById('meusProdutos').style.display = 'none';
+            document.getElementById('meusPedidos').style.display = 'block';
+            document.getElementById('adicionarProduto').style.display = 'none';
+            document.getElementById('estatisticas').style.display = 'none';
+        });
+
+        document.getElementById('btnAdicionarProduto').addEventListener('click', function() {
+            document.getElementById('meusProdutos').style.display = 'none';
+            document.getElementById('meusPedidos').style.display = 'none';
+            document.getElementById('adicionarProduto').style.display = 'block';
+            document.getElementById('estatisticas').style.display = 'none';
+        });
+
+        document.getElementById('btnEstatisticas').addEventListener('click', function() {
+            document.getElementById('meusProdutos').style.display = 'none';
+            document.getElementById('meusPedidos').style.display = 'none';
+            document.getElementById('adicionarProduto').style.display = 'none';
+            document.getElementById('estatisticas').style.display = 'block';
+        });
+    </script>
 {% endblock %}

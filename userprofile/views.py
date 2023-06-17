@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.text import slugify
-from shop.models import Product, Category
+from shop.models import Product, Order, OrderItem
 from .models import UserProfile
 from django.contrib import messages
 from shop.forms import ProductForm
@@ -19,7 +19,8 @@ def vendor_details(request, pk):
 @login_required
 def my_shop(request):
     products = request.user.products.exclude(status=Product.DELETED)
-    return render(request, 'userprofile/my_shop.html', {'products': products})
+    order_items = OrderItem.objects.filter(product__user=request.user)
+    return render(request, 'userprofile/my_shop.html', {'products': products, 'order_items': order_items})
 
 
 @login_required
