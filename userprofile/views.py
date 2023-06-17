@@ -8,7 +8,7 @@ from shop.models import Product, Order, OrderItem
 from .models import UserProfile
 from django.contrib import messages
 from shop.forms import ProductForm
-
+from django.shortcuts import get_object_or_404
 
 
 def vendor_details(request, pk):
@@ -22,6 +22,10 @@ def my_shop(request):
     order_items = OrderItem.objects.filter(product__user=request.user)
     return render(request, 'userprofile/my_shop.html', {'products': products, 'order_items': order_items})
 
+@login_required
+def order_detail(request, pk):
+    order = get_object_or_404(Order, pk=pk)
+    return render(request, 'userprofile/order_detail.html', {'order': order})
 
 @login_required
 def add_product(request):

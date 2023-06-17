@@ -55,24 +55,30 @@
                 {% if order_items %}
                     <div class="mt-4">
                         <div class="flex">
-                            <div class="w-1/5 text-center"><strong>ID</strong></div>
+                            <div class="w-1/8 text-center"><strong>ID</strong></div>
                             <div class="w-1/5 text-center"><strong>Local</strong></div>
-                            <div class="w-2/5 text-center"><strong>Título</strong></div>
-                            <div class="w-1/5 text-center"><strong>Quantidade</strong></div>
-                            <div class="w-1/5 text-center"><strong>Preço</strong></div>
+                            <div class="w-1/3"><strong>Produto</strong></div>
+                            <div class="w-1/6"><strong>Quantidade</strong></div>
+                            <div class="w-1/5 text-right"><strong>Preço</strong></div>
                         </div>
                         {% for order_item in order_items %}
                             <div class="flex mt-2">
-                                <div class="w-1/5 text-center">{{ order_item.id }}</div>
+                                <div class="w-1/8 text-center">
+                                    <button class="text-white bg-black rounded-xl font-bold px-1 py-1 text-sm" type="button">
+                                        <a href="{% url 'order_detail' order_item.order.id %}">{{ order_item.id }}</a>
+                                    </button>
+                                </div>
                                 <div class="w-1/5 text-center">{{ order_item.product.shelf }}</div>
-                                <div class="w-2/5 text-center">{{ order_item.product.title }}</div>
-                                <div class="w-1/5 text-center">{{ order_item.quantity }}</div>
-                                <div class="w-1/5 text-center">€ {{ order_item.price }}</div>
+                                <div class="w-1/3">{{ order_item.product.title }}</div>
+                                <div class="w-1/6 flex justify-center">{{ order_item.quantity }}</div>
+                                <div class="w-1/5 text-right">{{ order_item.price }}</div>
                             </div>
                         {% endfor %}
+                        <hr class="my-4">
                     </div>
+                {% else %}
+                    <p class="mt-4 py-4 px-8 bg-gray-300">Você ainda não possui pedidos.</p>
                 {% endif %}
-
             </div>
 
             <div id="adicionarProduto" style="display: none;">
