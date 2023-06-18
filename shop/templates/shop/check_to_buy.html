@@ -5,16 +5,105 @@ Finalizar compra
 {% endblock %}
 
 
-
 {% block content %}
 
 <h1 class="mb-6 text-2xl">Finalizar compra </h1>
 
 <h2 class="text-2xl text-green-800">Total a pagar: € {{cart.get_total_values|floatformat:2}} </h2>
-    <form method="post" action=".">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button class="px-3 py-3 text-2xl text-white inline-block bg-green-800 rounded-xl mt-2">Finalizar Compra</button>
-    </form>
+
+    {{ form.as_p }}
+    <div id="errors" class=" hidden my-3 px-4 py-4 bg-yellow-600 radius-xl rounded-xl"></div>
+    <button class="px-3 py-3 text-2xl text-white inline-block bg-green-800 rounded-xl mt-2" onclick="comprar(event)">
+        Finalizar Compra</button>
+
 {% endblock %}
+
+{% block scripts %}
+    <script type="application/javascript" src="https://js.stripe.com/v3/"></script>
+    <script>
+        function validate(first_name, last_name, shipping_address, postal_code, city, county){
+            let errors = [];
+            if (first_name == ''){
+                errors.push('Você não digitou seu nome ou está incorreto.');
+            }
+            if (last_name == ''){
+                errors.push('Você não digitou seu sobrenome ou está incorreto.');
+            }
+            if (shipping_address == ''){
+                errors.push('Você não digitou seu endereço de entrega ou está incorreto.');
+            }
+            if (postal_code == ''){
+                errors.push('Você não digitou seu código postal.');
+            }
+            if (city == ''){
+                errors.push('Você não digitou o nome de sua cidade.');
+            }
+            if (county == ''){
+                errors.push('Você não digitou seu estado/ região/ distrito/ freguesia.');
+            }
+
+            let html = '';
+
+            for (let i = 0; i < errors.length; i++){
+                html += errors[i] + '<br>';
+            }
+            let errorsElement = document.getElementById('errors');
+
+            if (errors.length){
+                errorsElement.classList.remove('hidden');
+                errorsElement.innerHTML = html;
+                return false;
+            }else{
+                errorsElement.classList.add('hidden');
+                return true;
+            }
+        }
+        function comprar(event) {
+            event.preventDefault();
+            const first_name = document.getElementById('id_first_name').value;
+            const last_name = document.getElementById('id_last_name').value;
+            const shipping_address = document.getElementById('id_shipping_address').value;
+            const postal_code = document.getElementById('id_postal_code').value;
+            const city = document.getElementById('id_city').value;
+            const county = document.getElementById('id_county').value;
+
+            if (validate(first_name, last_name, shipping_address, postal_code, city, county)){
+
+            let data = {
+                'first_name': first_name,
+                'last_name': last_name,
+                'shipping_address': shipping_address,
+                'postal_code': postal_code,
+                'city': city,
+                'county': county,
+            }
+            let stripe = Stripe('{{ pub_key }}');
+            fetch('/cart/check_to_buy/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFTOKEN': '{{csrf_token}}'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify(data)
+            })
+            .then(function(response){
+                return response.json()
+            })
+            .then(function(session){
+                return stripe.redirectToCheckout({sessionId: session.session.id})
+            })
+            .then(function(result){
+                if(result.error){
+                    alert(result.error.message);
+                }
+            })
+            .catch(function(error){
+                alert(error)
+             });
+        }
+            return false;
+        }
+    </script>
+{% endblock%}
 

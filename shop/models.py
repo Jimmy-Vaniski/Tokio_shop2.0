@@ -83,7 +83,7 @@ class Order(models.Model):
     county = models.CharField(max_length=200)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     is_paid = models.BooleanField(default=False)
-    goods = models.CharField(max_length=255)
+    payment_intent = models.CharField(max_length=255)
     created_by = models.ForeignKey(User, related_name="orders", on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

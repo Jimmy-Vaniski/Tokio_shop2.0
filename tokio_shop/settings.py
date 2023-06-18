@@ -50,6 +50,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'tokio_shop.urls'
 
+STRIPE_PUB_KEY = 'pk_test_51NJrNdBqLDih8htIm58dpXxurbEUwhu0laCDyrXNoUa3gUUjoIyADVbtswk2zPH1cElHTwpffGmaakxsgZXLZIdp00hAH88Ya9'
+
+STRIPE_SECRET_KEY = 'sk_test_51NJrNdBqLDih8htI5Q9WMa8Zev05vGbnkFaCA91SqFhy7mJvRwvHvFCfcZcGloG2GjeTdYVa9qxLpANvVF7cIB0X00MTtxz9L7'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

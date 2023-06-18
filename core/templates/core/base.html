@@ -1,6 +1,6 @@
 {% load menu %}
 
-<!doctype html>
+
 <html>
 <head>
   <meta charset="UTF-8">
@@ -8,48 +8,6 @@
   <title>{% block title %}{% endblock %} - 2.0</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    html, body {
-      height: 100%;
-    }
-    .wrapper {
-      min-height: 100%;
-      position: relative;
-    }
-    .footer {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 110px;
-      background-color: black;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
-    .footer p {
-      margin-top: 10px;
-      font-size: 14px;
-    }
-    .footer .social-icons {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-    }
-    .footer .social-icons a {
-      font-size: 36px;
-      color: white;
-    }
-    .footer .divider {
-      width: 100%;
-      height: 1px;
-      background-color: white;
-      margin: 10px 0;
-    }
-  </style>
 </head>
 
 <body>
@@ -92,32 +50,11 @@
     {% endblock%}
   </div>
 
-  <footer class="footer">
-    <div class="social-icons mt-4">
-      <a href="https://www.instagram.com/jimmyvaniski/">
-        <i class="fab fa-instagram"></i>
-      </a>
-      <a href="https://www.facebook.com/jimmy.vaniski">
-        <i class="fab fa-facebook"></i>
-      </a>
-      <a href="https://www.linkedin.com/in/jimmy-vaniski-84310123a/">
-        <i class="fab fa-linkedin"></i>
-      </a>
-      <a href="https://github.com/Jimmy-Vaniski">
-        <i class="fab fa-github"></i>
-      </a>
-      <a href="https://wa.me/351911881183">
-        <i class="fab fa-whatsapp"></i>
-      </a>
-    </div>
-
-    <div class="divider" style="display: inline-block;">
-  <hr class="text-white">
 </div>
+{% block scripts %}
 
-    <p class="mb-6">Jimmy Vaniski 2023 &copy; Todos os direitos reservados</p>
-  </footer>
-</div>
+{% endblock %}
 
 </body>
+
 </html>
