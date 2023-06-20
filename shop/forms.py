@@ -4,9 +4,53 @@ from django.utils.text import slugify
 
 
 class OrderForm(forms.ModelForm):
+    first_name = forms.CharField(
+        label='Nome',
+        widget=forms.TextInput(attrs={
+            'class': 'w-full p-4 border border-green-600',
+            'placeholder': 'Digite seu nome',
+        })
+    )
+    last_name = forms.CharField(
+        label='Sobrenome',
+        widget=forms.TextInput(attrs={
+            'class': 'w-full p-4 border border-green-600',
+            'placeholder': 'Digite seu sobrenome',
+        })
+    )
+    shipping_address = forms.CharField(
+        label='Endereço de Envio',
+        widget=forms.TextInput(attrs={
+            'class': 'w-full p-4 border border-green-600',
+            'placeholder': 'Digite seu endereço de envio',
+        })
+    )
+    postal_code = forms.CharField(
+        label='CEP',
+        widget=forms.TextInput(attrs={
+            'class': 'w-full p-4 border border-green-600',
+            'placeholder': 'Digite seu CEP',
+        })
+    )
+    city = forms.CharField(
+        label='Cidade',
+        widget=forms.TextInput(attrs={
+            'class': 'w-full p-4 border border-green-600',
+            'placeholder': 'Digite sua cidade',
+        })
+    )
+    county = forms.CharField(
+        label='Estado',
+        widget=forms.TextInput(attrs={
+            'class': 'w-full p-4 border border-green-600',
+            'placeholder': 'Digite seu estado',
+        })
+    )
+
     class Meta:
         model = Order
         fields = ('first_name', 'last_name', 'shipping_address', 'postal_code', 'city', 'county')
+
 
 
 class ProductForm(forms.ModelForm):
