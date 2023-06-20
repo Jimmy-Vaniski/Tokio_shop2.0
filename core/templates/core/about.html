@@ -1,18 +1,257 @@
-{% extends 'core/base.html' %}
-
-{% block title %}
-
-Sobre
-
-{% endblock %}
-
-
-
-{% block content %}
-
-<h1>Sobre Nós. eueue eueu </h1>
-
-{% endblock %}
-
-
-
+{% load static %}
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Right Resume</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin"/>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&amp;family=Roboto:wght@300;400;500;700&amp;display=swap"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" media="print" onload="this.media='all'"/>
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&amp;family=Roboto:wght@300;400;500;700&amp;display=swap"/>
+    </noscript>
+    <link href={% static "css/font-awesome/css/all.min.css" %}  rel="stylesheet">
+    <link href={% static "css/bootstrap.min.css" %} rel="stylesheet">
+    <link href={% static "css/aos.css" %} rel="stylesheet">
+    <link href={% static "css/main.css" %} rel="stylesheet">
+    <noscript>
+      <style type="text/css">
+        [data-aos] {
+            opacity: 1 !important;
+            transform: translate(0) scale(1) !important;
+        }
+      </style>
+    </noscript>
+  </head>
+  <body id="top">
+    <header class="d-print-none">
+      <div class="container text-center text-lg-left">
+        <div class="py-3 clearfix">
+          <h1 class="site-title mb-0">Jimmy Vaniski</h1>
+          <div class="site-nav">
+            <nav role="navigation">
+              <ul class="nav justify-content-center">
+                <li class="nav-item"><a class="nav-link" href="https://wa.me/351911881183" title="WhatsApp"><i class="fab fa-whatsapp"></i><span class="menu-title sr-only">WhatsApp</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="https://www.facebook.com/jimmy.vaniski" title="Facebook"><i class="fab fa-facebook"></i><span class="menu-title sr-only">Facebook</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="https://www.instagram.com/jimmyvaniski" title="Instagram"><i class="fab fa-instagram"></i><span class="menu-title sr-only">Instagram</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="https://www.linkedin.com/in/jimmy-vaniski-84310123a/" title="LinkedIn"><i class="fab fa-linkedin"></i><span class="menu-title sr-only">LinkedIn</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/Jimmy-Vaniski" title="Github"><i class="fab fa-github"></i><span class="menu-title sr-only">Github</span></a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="page-content">
+      <div class="container">
+<div class="cover shadow-lg bg-white">
+  <div class="cover-bg p-3 p-lg-4 text-white">
+    <div class="row">
+      <div class="col-lg-4 col-md-5">
+        <div class="avatar hover-effect bg-white shadow-sm p-1"><img src="/staticfiles/images/jimmy.jpg" width="200" height="200"/></div>
+      </div>
+      <div class="col-lg-8 col-md-7 text-center text-md-start">
+        <h2 class="h1 mt-2" data-aos="fade-left" data-aos-delay="0">Jimmy Vaniski</h2>
+        <p data-aos="fade-left" data-aos-delay="100">Python Developer & Web Developer</p>
+        <div class="d-print-none" data-aos="fade-left" data-aos-delay="200"><a class="btn btn-light text-dark shadow-sm mt-1 me-1" href={% static "jimmy.pdf" %} target="_blank">Download CV</a><a class="btn btn-success shadow-sm mt-1" href="http://127.0.0.1:8000/">Voltar a loja</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="about-section pt-4 px-3 px-lg-4 mt-1">
+    <div class="row">
+      <div class="col-md-6">
+        <h2 class="h3 mb-3">About Me</h2>
+        <p>"Hello, I'm Jimmy Vaniski, and I thrive on challenges that push me to grow. I'm enthusiastic about all things technology-related and continuously strive to learn how to leverage them in my daily life. With a strong background in Python and a relentless desire to expand my knowledge, I aim to be better than I was yesterday. I'm eager to collaborate with your company, not only to enhance my skills but also to contribute to its success."</p>
+      </div>
+      <div class="col-md-5 offset-md-1">
+        <div class="row mt-2">
+          <div class="col-sm-4">
+            <div class="pb-1">Age</div>
+          </div>
+          <div class="col-sm-8">
+            <div class="pb-1 text-secondary">35</div>
+          </div>
+          <div class="col-sm-4">
+            <div class="pb-1">Email</div>
+          </div>
+          <div class="col-sm-8">
+            <div class="pb-1 text-secondary">Vaniskito@hotmail.com</div>
+          </div>
+          <div class="col-sm-4">
+            <div class="pb-1">Phone</div>
+          </div>
+          <div class="col-sm-8">
+            <div class="pb-1 text-secondary">+351 911881183</div>
+          </div>
+          <div class="col-sm-4">
+            <div class="pb-1">Address</div>
+          </div>
+          <div class="col-sm-8">
+            <div class="pb-1 text-secondary">112, Heróis da Grande Guerra, Caldas da rainha, Portugal</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr class="d-print-none"/>
+  <div class="skills-section px-3 px-lg-4">
+    <h2 class="h3 mb-3">Professional Skills</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="mb-2"><span>HTML</span>
+          <div class="progress my-1">
+            <div class="progress-bar bg-primary" role="progressbar" data-aos="zoom-in-right" data-aos-delay="100" data-aos-anchor=".skills-section" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+        <div class="mb-2"><span>CSS</span>
+          <div class="progress my-1">
+            <div class="progress-bar bg-primary" role="progressbar" data-aos="zoom-in-right" data-aos-delay="200" data-aos-anchor=".skills-section" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+        <div class="mb-2"><span>JavaScript</span>
+          <div class="progress my-1">
+            <div class="progress-bar bg-primary" role="progressbar" data-aos="zoom-in-right" data-aos-delay="300" data-aos-anchor=".skills-section" style="width: 35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="mb-2"><span>Python</span>
+          <div class="progress my-1">
+            <div class="progress-bar bg-success" role="progressbar" data-aos="zoom-in-right" data-aos-delay="400" data-aos-anchor=".skills-section" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+        <div class="mb-2"><span>Django</span>
+          <div class="progress my-1">
+            <div class="progress-bar bg-success" role="progressbar" data-aos="zoom-in-right" data-aos-delay="500" data-aos-anchor=".skills-section" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+        <div class="mb-2"><span>Github</span>
+          <div class="progress my-1">
+            <div class="progress-bar bg-success" role="progressbar" data-aos="zoom-in-right" data-aos-delay="600" data-aos-anchor=".skills-section" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr class="d-print-none"/>
+  <div class="work-experience-section px-3 px-lg-4">
+    <h2 class="h3 mb-4">Work Experience</h2>
+    <div class="timeline">
+      <div class="timeline-card timeline-card-primary card shadow-sm">
+        <div class="card-body">
+          <div class="h5 mb-1">Junior Web Developer <span class="text-muted h6">aArcana Solutions</span></div>
+          <div class="text-muted text-small mb-2">Nov, 2022 - Fev, 2023</div>
+          <div>I worked with an incredible team in a very friendly environment developing small web applications and contributing to the implementation of requested features.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr class="d-print-none"/>
+  <div class="page-break"></div>
+  <div class="education-section px-3 px-lg-4 pb-4">
+    <h2 class="h3 mb-4">Education</h2>
+    <div class="timeline">
+      <div class="timeline-card timeline-card-success card shadow-sm">
+        <div class="card-body">
+          <div class="h5 mb-1">Python Developer <span class="text-muted h6">from Tokio School</span></div>
+          <div class="text-muted text-small mb-2">2023 - 2023</div>
+          <div>Professional course using the python language as a base. Learning the fundamentals and basic concepts of the language, then more in-depth concepts such as OOP. The course has a period of 2 years but there are no limits on how many hours to study per day, which made me finish in 6 months.</div>
+        </div>
+      </div>
+      <div class="timeline-card timeline-card-success card shadow-sm">
+        <div class="card-body">
+          <div class="h5 mb-1"> Css, Html, Js <span class="text-muted h6">from Estudonauta</span></div>
+          <div class="text-muted text-small mb-2">2022 - 2022</div>
+          <div>A free learning platform with various courses focused on the IT field, where I learned the fundamentals of the three aforementioned languages and prepared myself for new challenges.</div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+  <hr class="d-print-none"/>
+  <div class="contant-section px-3 px-lg-4 pb-4" id="contact">
+    <h2 class="h3 text mb-3">Contact</h2>
+    <div class="row">
+      <div class="col-md-7 d-print-none">
+        <div class="my-2"><form action="https://formspree.io/your@email.com"
+    method="POST">
+  <div class="row">
+    <div class="col-6">
+      <input class="form-control" type="text" id="name" name="name" placeholder="Your Name" required>
+    </div>
+    <div class="col-6">
+      <input class="form-control" type="email" id="email" name="_replyto" placeholder="Your E-mail" required>
+    </div>
+  </div>
+  <div class="form-group my-2">
+    <textarea class="form-control" style="resize: none;" id="message" name="message" rows="4"  placeholder="Your Message" required></textarea>
+  </div>
+  <button class="btn btn-primary mt-2" type="submit">Send</button>
+</form>
+        </div>
+      </div>
+      <div class="col">
+        <div class="mt-2">
+          <h3 class="h6">Address</h3>
+          <div class="pb-2 text-secondary">112, Heróis da Grande Guerra, Caldas da rainha, Portugal</div>
+          <h3 class="h6">Phone</h3>
+          <div class="pb-2 text-secondary">+351 911881183</div>
+          <h3 class="h6">Email</h3>
+          <div class="pb-2 text-secondary">Vaniskito@hotmail.com</div>
+        </div>
+      </div>
+      <div class="col d-none d-print-block">
+        <div class="mt-2">
+          <div>
+            <div class="mb-2">
+              <div class="text-dark"><i class="fab fa-twitter mr-1"></i><span>https://twitter.com/templateflip</span>
+              </div>
+            </div>
+            <div class="mb-2">
+              <div class="text-dark"><i class="fab fa-facebook mr-1"></i><span>https://www.facebook.com/templateflip</span>
+              </div>
+            </div>
+            <div class="mb-2">
+              <div class="text-dark"><i class="fab fa-instagram mr-1"></i><span>https://www.instagram.com/templateflip</span>
+              </div>
+            </div>
+            <div class="mb-2">
+              <div class="text-dark"><i class="fab fa-github mr-1"></i><span>https://github.com/templateflip</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div></div>
+    </div>
+    <footer class="pt-4 pb-4 text-muted text-center d-print-none">
+      <div class="container">
+        <div class="my-3">
+          <div class="h4">Jimmy Vaniski</div>
+          <div class="footer-nav">
+            <nav role="navigation">
+              <ul class="nav justify-content-center">
+                <li class="nav-item"><a class="nav-link" href="https://wa.me/351911881183" title="WhatsApp"><i class="fab fa-whatsapp"></i><span class="menu-title sr-only">WhatsApp</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="https://www.facebook.com/jimmy.vaniski" title="Facebook"><i class="fab fa-facebook"></i><span class="menu-title sr-only">Facebook</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="https://www.instagram.com/jimmyvaniski" title="Instagram"><i class="fab fa-instagram"></i><span class="menu-title sr-only">Instagram</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="https://www.linkedin.com/in/jimmy-vaniski-84310123a/" title="LinkedIn"><i class="fab fa-linkedin"></i><span class="menu-title sr-only">LinkedIn</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/Jimmy-Vaniski" title="Github"><i class="fab fa-github"></i><span class="menu-title sr-only">Github</span></a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <div class="text-small">
+          <div class="mb-1">&copy; Jimmy Vaniski. All rights reserved.</div>
+          <div>Design - <a href="https://github.com/Jimmy-Vaniski" target="_blank">Jimmy Vaniski</a></div>
+        </div>
+      </div>
+    </footer>
+    <script src={% static "scripts/bootstrap.bundle.min.js" %}></script>
+    <script src={% static "scripts/aos.js" %}></script>
+    <script src={% static "scripts/main.js" %}></script>
+  </body>
+</html>

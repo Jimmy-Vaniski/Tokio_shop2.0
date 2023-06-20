@@ -3,10 +3,11 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from core.views import frontpage, about
-
+from django.views.generic import TemplateView
 
 urlpatterns = [
-    path('about', about, name='about'),
+    path('about/', TemplateView.as_view(template_name='core/about.html'), name='about'),
+
     path('admin/', admin.site.urls),
 
     path('', include('userprofile.urls')),
