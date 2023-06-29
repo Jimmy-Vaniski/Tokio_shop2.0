@@ -38,6 +38,7 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     stock = models.PositiveIntegerField(default=0)
+    initial_stock = models.PositiveIntegerField(blank=False, null=False)
     shelf = models.CharField(max_length=50, blank=True, null=True)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default=ACTIVATED)
 
@@ -60,6 +61,7 @@ class Product(models.Model):
                 return self.thumbnail.url
             else:
                 return 'media/suport/PRODUTO-SEM-IMAGEM.jpg'
+
 
     def create_thumbnail(self, image, size=(200, 200)):
         img = Image.open(image)

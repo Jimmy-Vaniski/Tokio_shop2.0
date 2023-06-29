@@ -1,6 +1,7 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path
 from . import views
+from .views import low_stock_list
 
 urlpatterns = [
     path('register/', views.register, name='register'),
@@ -14,6 +15,7 @@ urlpatterns = [
     path('my_shop/add-product/', views.add_product, name='add_product'),
     path('my_shop/edit-product/<int:pk>/', views.edit_product, name='edit_product'),
     path('my_shop/delete-product/<int:pk>/', views.delete_product, name='delete_product'),
+    path('low_stock_list/', low_stock_list, name='low_stock_list'),
     path('vendors/<int:pk>/', views.vendor_details, name='vendor_details'),
 
 ]

@@ -12,6 +12,7 @@
                     <button class="block w-full py-2 px-4 bg-black hover:bg-orange-400 text-white text-2xl rounded-lg my-1" id="btnMeusProdutos">Produtos</button>
                     <button class="block w-full py-2 px-4 bg-black hover:bg-orange-400 text-white text-2xl rounded-lg my-1" id="btnMeusPedidos">Pedidos</button>
                     <button class="block w-full py-2 px-4 bg-black hover:bg-orange-400 text-white text-2xl rounded-lg my-1" id="btnAdicionarProduto">Add Produto</button>
+                    <button class="block w-full py-2 px-4 bg-black hover:bg-orange-400 text-white text-2xl rounded-lg my-1" id="btnLowStockList">Repor Itens</button>
                     <button class="block w-full py-2 px-4 bg-black hover:bg-orange-400 text-white text-2xl rounded-lg my-1" id="btnEstatisticas">Estatísticas</button>
                 </div>
             </div>
@@ -82,13 +83,26 @@
             </div>
 
             <div id="adicionarProduto" style="display: none;">
-                <h2 class="text-2xl">Adicionar Produto</h2>
+                <h2 class="text-2xl"></h2>
                 <a href="{% url 'add_product' %}" class="mt-4 inline-block py-4 px-8 bg-green-500 rounded-lg">Adicionar Produto</a>
             </div>
 
             <div id="estatisticas" style="display: none;">
                 <h2 class="text-2xl">Estatísticas</h2>
                 <!-- Aqui você pode adicionar o código para exibir o gráfico de estatísticas -->
+            </div>
+
+            <div id="lowStockList" style="display: none;">
+                <h2 class="text-2xl">Repor Item</h2>
+                <!-- Adicione aqui o código HTML e os dados dinâmicos da lista de baixo estoque -->
+                {% for product in low_stock_products %}
+                    <div>
+                        <h3>{{ product.title }}</h3>
+                        <p>Estoque: {{ product.stock }}</p>
+                    </div>
+                {% empty %}
+                    <p>Nenhum produto com baixo estoque.</p>
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -99,6 +113,7 @@
             document.getElementById('meusPedidos').style.display = 'none';
             document.getElementById('adicionarProduto').style.display = 'none';
             document.getElementById('estatisticas').style.display = 'none';
+            document.getElementById('lowStockList').style.display = 'none';
         });
 
         document.getElementById('btnMeusPedidos').addEventListener('click', function() {
@@ -106,6 +121,7 @@
             document.getElementById('meusPedidos').style.display = 'block';
             document.getElementById('adicionarProduto').style.display = 'none';
             document.getElementById('estatisticas').style.display = 'none';
+            document.getElementById('lowStockList').style.display = 'none';
         });
 
         document.getElementById('btnAdicionarProduto').addEventListener('click', function() {
@@ -113,6 +129,7 @@
             document.getElementById('meusPedidos').style.display = 'none';
             document.getElementById('adicionarProduto').style.display = 'block';
             document.getElementById('estatisticas').style.display = 'none';
+            document.getElementById('lowStockList').style.display = 'none';
         });
 
         document.getElementById('btnEstatisticas').addEventListener('click', function() {
@@ -120,6 +137,11 @@
             document.getElementById('meusPedidos').style.display = 'none';
             document.getElementById('adicionarProduto').style.display = 'none';
             document.getElementById('estatisticas').style.display = 'block';
+            document.getElementById('lowStockList').style.display = 'none';
+        });
+
+        document.getElementById('btnLowStockList').addEventListener('click', function() {
+        window.location.href = "{% url 'low_stock_list' %}";
         });
     </script>
 {% endblock %}

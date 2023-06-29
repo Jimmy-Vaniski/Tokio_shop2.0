@@ -52,7 +52,6 @@ class OrderForm(forms.ModelForm):
         fields = ('first_name', 'last_name', 'shipping_address', 'postal_code', 'city', 'county')
 
 
-
 class ProductForm(forms.ModelForm):
     price = forms.DecimalField(
         widget=forms.TextInput(attrs={
@@ -66,10 +65,16 @@ class ProductForm(forms.ModelForm):
             'placeholder': 'Digite a quantidade em estoque',
         })
     )
+    initial_stock = forms.IntegerField(
+        widget=forms.TextInput(attrs={
+            'class': 'w-full p-4 border border-green-600',
+            'placeholder': 'Digite a quantidade inicial em estoque',
+        })
+    )
 
     class Meta:
         model = Product
-        fields = ('category', 'title', 'description', 'price', 'image', 'stock', 'shelf')
+        fields = ('category', 'title', 'description', 'price', 'image', 'stock', 'initial_stock', 'shelf')
         widgets = {
             'category': forms.Select(attrs={
                 'class': 'w-full p-4 border border-green-600',
@@ -91,6 +96,7 @@ class ProductForm(forms.ModelForm):
                 'placeholder': 'Digite o local de armazenamento',
             }),
         }
+
 
     def clean(self):
         cleaned_data = super().clean()

@@ -1,5 +1,6 @@
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.db.models import F
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -16,16 +17,19 @@ def vendor_details(request, pk):
     products = user.products.filter(status=Product.ACTIVATED)
     return render(request, 'userprofile/vendor_details.html', {'user': user, 'products': products})
 
+
 @login_required
 def my_shop(request):
     products = request.user.products.exclude(status=Product.DELETED)
     order_items = OrderItem.objects.filter(product__user=request.user)
     return render(request, 'userprofile/my_shop.html', {'products': products, 'order_items': order_items})
 
+
 @login_required
 def order_detail(request, pk):
     order = get_object_or_404(Order, pk=pk)
     return render(request, 'userprofile/order_detail.html', {'order': order})
+
 
 @login_required
 def add_product(request):
@@ -42,6 +46,18 @@ def add_product(request):
     else:
         form = ProductForm()
     return render(request, 'userprofile/product_form.html', {'title': 'Adicionar Produto', 'form': form})
+
+
+def low_stock_list(request):
+    low_stock_products = Product.objects.filter(stock__lte=0.2 * F('initial_stock'))
+
+    for product in low_stock_products:
+        print("Título: ", product.title)
+        print("Estoque: ", product.stock)
+        print("Estoque Inicial: ", product.initial_stock)
+        print("-------------------------")
+
+    return render(request, 'userprofile/low_stock_list.html', {'low_stock_products': low_stock_products})
 
 
 @login_required
@@ -65,6 +81,7 @@ def delete_product(request, pk):
     product.save()
     messages.success(request, 'Produto apagado com sucesso!')
     return redirect('my_shop')
+
 
 @login_required
 def my_account(request):
