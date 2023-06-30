@@ -89,20 +89,11 @@
 
             <div id="estatisticas" style="display: none;">
                 <h2 class="text-2xl">Estatísticas</h2>
-                <!-- Aqui você pode adicionar o código para exibir o gráfico de estatísticas -->
             </div>
 
             <div id="lowStockList" style="display: none;">
                 <h2 class="text-2xl">Repor Item</h2>
-                <!-- Adicione aqui o código HTML e os dados dinâmicos da lista de baixo estoque -->
-                {% for product in low_stock_products %}
-                    <div>
-                        <h3>{{ product.title }}</h3>
-                        <p>Estoque: {{ product.stock }}</p>
-                    </div>
-                {% empty %}
-                    <p>Nenhum produto com baixo estoque.</p>
-                {% endfor %}
+
             </div>
         </div>
     </div>
@@ -133,11 +124,7 @@
         });
 
         document.getElementById('btnEstatisticas').addEventListener('click', function() {
-            document.getElementById('meusProdutos').style.display = 'none';
-            document.getElementById('meusPedidos').style.display = 'none';
-            document.getElementById('adicionarProduto').style.display = 'none';
-            document.getElementById('estatisticas').style.display = 'block';
-            document.getElementById('lowStockList').style.display = 'none';
+        window.location.href = "{% url 'statistics' %}";
         });
 
         document.getElementById('btnLowStockList').addEventListener('click', function() {

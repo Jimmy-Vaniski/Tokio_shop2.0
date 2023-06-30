@@ -26,6 +26,11 @@ def my_shop(request):
 
 
 @login_required
+def statistics(request):
+    return render(request, 'userprofile/statistics.html')
+
+
+@login_required
 def order_detail(request, pk):
     order = get_object_or_404(Order, pk=pk)
     return render(request, 'userprofile/order_detail.html', {'order': order})
