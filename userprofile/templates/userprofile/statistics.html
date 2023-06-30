@@ -3,7 +3,35 @@
 {% block title %}Estatísticas{% endblock %}
 
 {% block content %}
-    <h1 class="text-2xl">estatisticas </h1>
+    <h1 class="text-2xl">Estatisticas </h1>
 
+<div id="chart_div"></div>
 
 {% endblock %}
+
+<script type="text/javascript">
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        // Aqui você pode adicionar o código para obter os dados do seu backend
+        // e formatá-los de acordo com o formato esperado pelo Google Charts.
+
+        // Exemplo de dados de amostra
+        var data = google.visualization.arrayToDataTable([
+            ['Produto', 'Quantidade Vendida'],
+            ['Produto A', 10],
+            ['Produto B', 8],
+            ['Produto C', 15],
+        ]);
+
+        var options = {
+            title: 'Produtos Mais Vendidos',
+            width: 400,
+            height: 300
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+    }
+</script>

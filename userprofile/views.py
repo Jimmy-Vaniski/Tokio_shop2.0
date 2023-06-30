@@ -55,12 +55,12 @@ def add_product(request):
 
 def low_stock_list(request):
     low_stock_products = Product.objects.filter(stock__lte=0.2 * F('initial_stock'))
-
-    for product in low_stock_products:
+    # teste para retornar no terminal se tenho retorno correto da função
+    '''for product in low_stock_products: 
         print("Título: ", product.title)
         print("Estoque: ", product.stock)
         print("Estoque Inicial: ", product.initial_stock)
-        print("-------------------------")
+        print("-------------------------")'''
 
     return render(request, 'userprofile/low_stock_list.html', {'low_stock_products': low_stock_products})
 

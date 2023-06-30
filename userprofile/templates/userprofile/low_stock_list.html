@@ -1,30 +1,37 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Lista de Produtos com Estoque Baixo{% endblock %}
+{% block title %}Saúde Estoque{% endblock %}
 
 {% block content %}
-    <div class="bg-red-100 p-4">
-        <p class="text-red-600 font-bold">Atenção, produtos com estoque abaixo do ideal. Recomendado repor esses itens.</p>
-    </div>
+    {% if low_stock_products %}
+        <div class="bg-red-100 p-4">
+            <p class="text-red-600 font-bold">Atenção, produtos com estoque abaixo do ideal. Recomendado repor esses itens.</p>
+        </div>
 
-    <table class="mt-4 w-full">
-        <thead>
-            <tr>
-                <th class="px-4 py-2 text-center">Id produto</th>
-                <th class="px-4 py-2 text-center">Nome produto</th>
-                <th class="px-4 py-2 text-center">Estoque produto</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for product in low_stock_products %}
-            <tr>
-                <td class="border px-4 py-2 text-center">{{ product.id }}</td>
-                <td class="border px-4 py-2 text-center"><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></td>
-                <td class="border px-4 py-2 text-center">{{ product.stock }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        <table class="mt-4 w-full">
+            <thead>
+                <tr>
+                    <th class="px-4 py-2 text-center">Id produto</th>
+                    <th class="px-4 py-2 text-center">Nome produto</th>
+                    <th class="px-4 py-2 text-center">Estoque produto</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in low_stock_products %}
+                <tr>
+                    <td class="border px-4 py-2 text-center">{{ product.id }}</td>
+                    <td class="border px-4 py-2 text-center"><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></td>
+                    <td class="border px-4 py-2 text-center">{{ product.stock }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="bg-green-100 p-4">
+            <p class="text-green-600 font-bold">O estoque está saudável. Nenhum produto com estoque abaixo do ideal.</p>
+        </div>
+    {% endif %}
+
     <div class="text-center mt-8">
         <a href="{% url 'my_shop' %}" class="bg-blue-500 hover:bg-green-500 text-white py-2 px-4 rounded-lg">
             Voltar à Área do Vendedor
