@@ -3,35 +3,70 @@
 {% block title %}Estatísticas{% endblock %}
 
 {% block content %}
-    <h1 class="text-2xl">Estatisticas </h1>
+    <div class="statistic-title">
+        <h1 class="text-4xl text-black text-center py-6 mb-5 bg-green-100">Estatísticas</h1>
+    </div>
 
-<div id="chart_div"></div>
+    <div class="chart-container">
+        <div class="top-products-chart">
+            <h2 class="text-2xl mt-10">Produtos Mais Vendidos</h2>
+            <div id="top-products-chart"></div>
+        </div>
 
+        <div class="category-sales-chart ">
+            <h2 class="text-xl mt-10">Porcentagem de Vendas por Categoria</h2>
+            <div id="category-sales-chart"></div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {packages: ['corechart']});
+        google.charts.setOnLoadCallback(drawTopProductsChart);
+        google.charts.setOnLoadCallback(drawCategorySalesChart);
+
+        function drawTopProductsChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Produto');
+            data.addColumn('number', 'Quantidade Vendida');
+            data.addRows([
+                {% for product in top_products %}
+                ['{{ product.title }}', {{ product.total_quantity }}],
+                {% endfor %}
+            ]);
+
+            var options = {
+
+                width: 600,
+                height: 400,
+                legend: {position: 'none'},
+                vAxis: {title: 'Quantidade Vendida'},
+                hAxis: {title: 'Produto'},
+            };
+
+            var chart = new google.visualization.ColumnChart(document.getElementById('top-products-chart'));
+            chart.draw(data, options);
+        }
+
+        function drawCategorySalesChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Categoria');
+            data.addColumn('number', 'Porcentagem');
+            data.addRows([
+                {% for category in categories %}
+                ['{{ category.title }}', {{ category.percentage }}],
+                {% endfor %}
+            ]);
+
+            var options = {
+
+                width: 600,
+                height: 400,
+                is3D: true,
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('category-sales-chart'));
+            chart.draw(data, options);
+        }
+    </script>
 {% endblock %}
-
-<script type="text/javascript">
-    google.charts.load('current', { 'packages': ['corechart'] });
-    google.charts.setOnLoadCallback(drawChart);
-
-    function drawChart() {
-        // Aqui você pode adicionar o código para obter os dados do seu backend
-        // e formatá-los de acordo com o formato esperado pelo Google Charts.
-
-        // Exemplo de dados de amostra
-        var data = google.visualization.arrayToDataTable([
-            ['Produto', 'Quantidade Vendida'],
-            ['Produto A', 10],
-            ['Produto B', 8],
-            ['Produto C', 15],
-        ]);
-
-        var options = {
-            title: 'Produtos Mais Vendidos',
-            width: 400,
-            height: 300
-        };
-
-        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-    }
-</script>

@@ -1,11 +1,11 @@
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.db.models import F
+from django.db.models import F, Sum
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.text import slugify
-from shop.models import Product, Order, OrderItem
+from shop.models import Product, Order, OrderItem, Category
 from .models import UserProfile
 from django.contrib import messages
 from shop.forms import ProductForm
@@ -27,7 +27,21 @@ def my_shop(request):
 
 @login_required
 def statistics(request):
-    return render(request, 'userprofile/statistics.html')
+    top_products = Product.objects.annotate(total_quantity=Sum('items__quantity')).order_by('-total_quantity')[:5]
+
+    # Obter a quantidade total vendida de todos os produtos
+    total_quantity = Product.objects.aggregate(total_quantity=Sum('items__quantity'))['total_quantity']
+
+    # Obter a contagem de vendas por categoria
+    categories = Category.objects.annotate(total_quantity=Sum('products__items__quantity')).filter(total_quantity__gt=0)
+
+    # Calcular a porcentagem de vendas para cada categoria
+    for category in categories:
+        category.percentage = (category.total_quantity / total_quantity) * 100
+
+    context = {'top_products': top_products, 'categories': categories}
+    return render(request, 'userprofile/statistics.html', context)
+
 
 
 @login_required

@@ -5,7 +5,7 @@
 {% block content %}
 
 <h1 class="text-2xl bg-black text-white rounded-lg p-2 mt-10  text-center">Detalhes do pedido Nº {{ order.id }}</h1>
-<h1 class="text-2xl bg-green-600 text-white rounded-lg p-2 mt-5 text-center">Produtos encontrados</h1>
+<h1 class="text-2xl bg-green-600 text-white rounded-lg p-2 mt-5 mb-3 text-center">Produtos encontrados</h1>
 
 <div class="flex">
     <div class="w-1/4 text-center bg-black text-white p-2"><strong>Local</strong></div>
@@ -25,5 +25,10 @@
 
 {% endif %}
 {% endfor %}
+    <div class="text-center mt-8">
+        <a href="{% url 'my_shop' %}" class="bg-blue-500 hover:bg-green-500 text-white py-2 px-4 rounded-lg">
+            Voltar à Área do Vendedor
+        </a>
+    </div>
 
 {% endblock %}
