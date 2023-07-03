@@ -1,103 +1,20 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Cadastrar novo usuário{% endblock %}
 
 {% block content %}
-    <h1 class="text-2xl">Register</h1>
-    <form method="post">
-        {% csrf_token %}
-        <div>
-            <label>Username:</label>
-            {{ user_form.username }}
-            {% if user_form.username.errors %}
-                <div class="error-message">{{ user_form.username.errors }}</div>
-            {% endif %}
-        </div>
-        <div>
-            <label>Password:</label>
-            {{ user_form.password1 }}
-            {% if user_form.password1.errors %}
-                <div class="error-message">Your password must contain at least 8 characters.</div>
-            {% endif %}
-        </div>
-        <div>
-            <label>Password Confirmation:</label>
-            {{ user_form.password2 }}
-            {% if user_form.password2.errors %}
-                <div class="error-message">{{ user_form.password2.errors }}</div>
-            {% endif %}
-        </div>
+    <div class="cadastro">
+        <h1 class="text-4xl text-white text-center py-4 mb-5 mt-5 bg-green-600">Registar novo usuário</h1>
+    </div>
 
-        <!-- Outros campos do UserForm aqui -->
-        <div>
-            <label>Email:</label>
-            {{ profile_form.email }}
-        </div>
-
-        <div>
-            <label>Nome:</label>
-            {{ profile_form.nome }}
-        </div>
-        <div>
-            <label>Apelido:</label>
-            {{ profile_form.apelido }}
-        </div>
-        <div>
-            <label>Nif:</label>
-            {{ profile_form.Nif }}
-        </div>
-        <div>
-            <label>Endereco:</label>
-            {{ profile_form.endereco }}
-        </div>
-        <div>
-            <label>Cep:</label>
-            {{ profile_form.cep }}
-        </div>
-        <div>
-            <label>Telefone:</label>
-            {{ profile_form.telefone }}
-        </div>
-        <div>
-            <label>Is Vendor:</label>
-            {{ profile_form.is_vendor }}
-        </div>
-        <div>
-            <label>Nome Empresa:</label>
-            {{ profile_form.nome_empresa }}
-        </div>
-        <div>
-            <label>Nif Empresa:</label>
-            {{ profile_form.nif_empresa }}
-        </div>
-        <div>
-            <label>Endereco Empresa:</label>
-            {{ profile_form.endereco_empresa }}
-        </div>
-        <div>
-            <label>Cep Empresa:</label>
-            {{ profile_form.cep_empresa }}
-        </div>
-        <div>
-            <label>Telefone Empresa:</label>
-            {{ profile_form.telefone_empresa }}
-        </div>
-        <div>
-            <label>Email Empresa:</label>
-            {{ profile_form.email_empresa }}
-        </div>
-        <button type="submit">Register</button>
-    </form>
-
-    <style>
-        .error-message {
-            color: red;
-            font-size: 14px;
-        }
-
-        /* Esconda as mensagens indesejadas do Django */
-        ul.errorlist li {
-            display: none;
-        }
-    </style>
+    <div class="container">
+        <form method="post">
+            {% csrf_token %}
+            {{ user_form.as_p }}
+            {{ profile_form.as_p }}
+            <button type="submit" class="bg-blue-500 hover:bg-green-500 text-white rounded-lg px-4 py-2 mx-auto block mt-5">
+                Registrar
+            </button>
+        </form>
+    </div>
 {% endblock %}

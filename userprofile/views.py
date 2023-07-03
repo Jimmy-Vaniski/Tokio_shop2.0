@@ -10,7 +10,12 @@ from .models import UserProfile
 from django.contrib import messages
 from shop.forms import ProductForm
 from django.shortcuts import get_object_or_404
-from .forms import UserProfileForm
+from .forms import UserForm, UserProfileForm
+from django.contrib.auth import login
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from .forms import UserForm, UserProfileForm
+from .models import UserProfile
 
 
 def vendor_details(request, pk):
@@ -42,6 +47,7 @@ def statistics(request):
 
     context = {'top_products': top_products, 'categories': categories}
     return render(request, 'userprofile/statistics.html', context)
+
 
 
 @login_required
@@ -110,20 +116,20 @@ def my_account(request):
 
 def register(request):
     if request.method == 'POST':
-        user_form = UserCreationForm(request.POST)
+        user_form = UserForm(request.POST)
         profile_form = UserProfileForm(request.POST)
 
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
-
             profile = profile_form.save(commit=False)
             profile.user = user
             profile.save()
 
-            return redirect('frontpage')
+            login(request, user)
 
+            return redirect('frontpage')
     else:
-        user_form = UserCreationForm()
+        user_form = UserForm()
         profile_form = UserProfileForm()
 
     return render(request, 'userprofile/register.html', {'user_form': user_form, 'profile_form': profile_form})
