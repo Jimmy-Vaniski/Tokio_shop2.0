@@ -1,21 +1,103 @@
 {% extends 'core/base.html' %}
 
-{% block title %}
-
-Registo de usuário
-
-{% endblock %}
-
-
+{% block title %}Register{% endblock %}
 
 {% block content %}
-
-    <h1 class="text-2xl">Página de cadastro de usuários </h1>
-
-    <form method="post" action=".">
+    <h1 class="text-2xl">Register</h1>
+    <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button class="py-4 px-8 bg-green-500">Salvar</button>
+        <div>
+            <label>Username:</label>
+            {{ user_form.username }}
+            {% if user_form.username.errors %}
+                <div class="error-message">{{ user_form.username.errors }}</div>
+            {% endif %}
+        </div>
+        <div>
+            <label>Password:</label>
+            {{ user_form.password1 }}
+            {% if user_form.password1.errors %}
+                <div class="error-message">Your password must contain at least 8 characters.</div>
+            {% endif %}
+        </div>
+        <div>
+            <label>Password Confirmation:</label>
+            {{ user_form.password2 }}
+            {% if user_form.password2.errors %}
+                <div class="error-message">{{ user_form.password2.errors }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Outros campos do UserForm aqui -->
+        <div>
+            <label>Email:</label>
+            {{ profile_form.email }}
+        </div>
+
+        <div>
+            <label>Nome:</label>
+            {{ profile_form.nome }}
+        </div>
+        <div>
+            <label>Apelido:</label>
+            {{ profile_form.apelido }}
+        </div>
+        <div>
+            <label>Nif:</label>
+            {{ profile_form.Nif }}
+        </div>
+        <div>
+            <label>Endereco:</label>
+            {{ profile_form.endereco }}
+        </div>
+        <div>
+            <label>Cep:</label>
+            {{ profile_form.cep }}
+        </div>
+        <div>
+            <label>Telefone:</label>
+            {{ profile_form.telefone }}
+        </div>
+        <div>
+            <label>Is Vendor:</label>
+            {{ profile_form.is_vendor }}
+        </div>
+        <div>
+            <label>Nome Empresa:</label>
+            {{ profile_form.nome_empresa }}
+        </div>
+        <div>
+            <label>Nif Empresa:</label>
+            {{ profile_form.nif_empresa }}
+        </div>
+        <div>
+            <label>Endereco Empresa:</label>
+            {{ profile_form.endereco_empresa }}
+        </div>
+        <div>
+            <label>Cep Empresa:</label>
+            {{ profile_form.cep_empresa }}
+        </div>
+        <div>
+            <label>Telefone Empresa:</label>
+            {{ profile_form.telefone_empresa }}
+        </div>
+        <div>
+            <label>Email Empresa:</label>
+            {{ profile_form.email_empresa }}
+        </div>
+        <button type="submit">Register</button>
     </form>
 
+    <style>
+        .error-message {
+            color: red;
+            font-size: 14px;
+        }
+
+        /* Esconda as mensagens indesejadas do Django */
+        ul.errorlist li {
+            display: none;
+        }
+    </style>
 {% endblock %}
