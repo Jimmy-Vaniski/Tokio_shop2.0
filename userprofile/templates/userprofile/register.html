@@ -11,10 +11,96 @@
         <form method="post">
             {% csrf_token %}
             {{ user_form.as_p }}
-            {{ profile_form.as_p }}
+            <p>Nome:</p>
+            {{ profile_form.nome }}
+            <p>Apelido:</p>
+            {{ profile_form.apelido }}
+            <p>NIF:</p>
+            {{ profile_form.Nif }}
+            <p>Endereço:</p>
+            {{ profile_form.endereco }}
+            <p>CEP</p>
+            {{ profile_form.cep }}
+            <p>Telefone</p>
+            {{ profile_form.telefone }}
+
+           <div class="mt-3 mb-3 ">
+               <p class=" text-2xl" style="display: inline-block;">Você é vendedor?</p>
+               {{ profile_form.is_vendor }}
+           </div>
+
+            <div id="company-fields" style="display: none;">
+                <p>Nome da Empresa:</p>
+                {{ profile_form.nome_empresa }}
+                <p>NIF da Empresa:</p>
+                {{ profile_form.nif_empresa }}
+                <p>Endereço da Empresa:</p>
+                {{ profile_form.endereco_empresa }}
+                <p>CEP da Empresa:</p>
+                {{ profile_form.cep_empresa }}
+                <p>Telefone da Empresa:</p>
+                {{ profile_form.telefone_empresa }}
+                <p>E-mail da Empresa:</p>
+                {{ profile_form.email_empresa }}
+            </div>
+
             <button type="submit" class="bg-blue-500 hover:bg-green-500 text-white rounded-lg px-4 py-2 mx-auto block mt-5">
                 Registrar
             </button>
         </form>
     </div>
+
+    <style>
+        /* CSS para substituir a caixa quadrada pelo seletor do iPhone */
+        input[type="checkbox"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border: 2px solid #43dc14;
+            border-radius: 50%;
+            outline: none;
+            cursor: pointer;
+            vertical-align: middle;
+            position: relative;
+        }
+
+        input[type="checkbox"]:checked {
+            background-color: #66bb6a; /* Cor de fundo quando a caixa está marcada */
+        }
+
+        input[type="checkbox"]:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: white;
+            display: none; /* Ícone de seleção (chave) oculto por padrão */
+        }
+
+        input[type="checkbox"]:checked:before {
+            display: block; /* Exibe o ícone de seleção (chave) quando a caixa está marcada */
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const isVendorCheckbox = document.querySelector('#id_is_vendor');
+            const companyFields = document.querySelector('#company-fields');
+
+            isVendorCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    companyFields.style.display = 'block';
+                } else {
+                    companyFields.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
 {% endblock %}
