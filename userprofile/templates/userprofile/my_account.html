@@ -1,19 +1,105 @@
-
 {% extends 'core/base.html' %}
+{% load static %}
 
 {% block title %}
-
 Meu cadastro
-
 {% endblock %}
 
-
-
 {% block content %}
+<style>
+    .user-profile-container {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
 
-    <h1 class="text-2xl">Pagina da minha conta ou do meu cadastro </h1>
+    .user-profile-field {
+        font-size: 20px;
+        display: flex;
+    }
 
-    <a href="{% url 'logout' %}" class="mt-8 inline-block py-4 px-8 bg-red-400 text-white">Sair</a>
+    .user-profile-label {
+        width: 33.33%;
+        font-weight: bold;
+        margin-bottom:5px
+    }
 
+    .user-profile-value {
+        width: 66.66%;
+    }
+
+    .vendor-details-container {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-top: 10px;
+    }
+</style>
+<div class="bg-green-200 mt-6 mb-10">
+        <h1 class="text-3xl font-semibold text-center">Meu Perfil</h1>
+        </div>
+
+
+<div class="user-profile-container">
+    {% if user_profile %}
+        <div class="user-profile-field">
+            <div class="user-profile-label">Nome:</div>
+            <div class="user-profile-value">{{ user_profile.nome }}</div>
+        </div>
+        <div class="user-profile-field">
+            <div class="user-profile-label">Apelido:</div>
+            <div class="user-profile-value">{{ user_profile.apelido }}</div>
+        </div>
+        <div class="user-profile-field">
+            <div class="user-profile-label">Nif:</div>
+            <div class="user-profile-value">{{ user_profile.Nif }}</div>
+        </div>
+        <div class="user-profile-field">
+            <div class="user-profile-label">Endereço:</div>
+            <div class="user-profile-value">{{ user_profile.endereco }}</div>
+        </div>
+        <div class="user-profile-field">
+            <div class="user-profile-label">CEP:</div>
+            <div class="user-profile-value">{{ user_profile.cep }}</div>
+        </div>
+        <div class="user-profile-field">
+            <div class="user-profile-label">Telefone:</div>
+            <div class="user-profile-value">{{ user_profile.telefone }}</div>
+        </div>
+        <div class="user-profile-field">
+            <div class="user-profile-label">É vendedor?</div>
+            <div class="user-profile-value">{% if user_profile.is_vendor %}Sim{% else %}Não{% endif %}</div>
+        </div>
+        {% if user_profile.is_vendor %}
+            <div class="vendor-details-container">
+                <div class="user-profile-field">
+                    <div class="user-profile-label">Nome da Empresa:</div>
+                    <div class="user-profile-value">{{ user_profile.nome_empresa }}</div>
+                </div>
+                <div class="user-profile-field">
+                    <div class="user-profile-label">NIF da Empresa:</div>
+                    <div class="user-profile-value">{{ user_profile.nif_empresa }}</div>
+                </div>
+                <div class="user-profile-field">
+                    <div class="user-profile-label">Endereço da Empresa:</div>
+                    <div class="user-profile-value">{{ user_profile.endereco_empresa }}</div>
+                </div>
+                <div class="user-profile-field">
+                    <div class="user-profile-label">CEP da Empresa:</div>
+                    <div class="user-profile-value">{{ user_profile.cep_empresa }}</div>
+                </div>
+                <div class="user-profile-field">
+                    <div class="user-profile-label">Telefone da Empresa:</div>
+                    <div class="user-profile-value">{{ user_profile.telefone_empresa }}</div>
+                </div>
+                <div class="user-profile-field">
+                    <div class="user-profile-label">Email da Empresa:</div>
+                    <div class="user-profile-value">{{ user_profile.email_empresa }}</div>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+</div>
+
+<a href="{% url 'logout' %}" class="mt-8 inline-block py-4 px-8 bg-red-400 text-white">Sair</a>
 
 {% endblock %}

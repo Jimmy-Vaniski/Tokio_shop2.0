@@ -1,8 +1,6 @@
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.db.models import F, Sum
-from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.text import slugify
 from shop.models import Product, Order, OrderItem, Category
@@ -10,12 +8,9 @@ from .models import UserProfile
 from django.contrib import messages
 from shop.forms import ProductForm
 from django.shortcuts import get_object_or_404
-from .forms import UserForm, UserProfileForm
-from django.contrib.auth import login
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from .forms import UserForm, UserProfileForm
-from .models import UserProfile
 
 
 def vendor_details(request, pk):
@@ -110,8 +105,8 @@ def delete_product(request, pk):
 
 @login_required
 def my_account(request):
-
-    return render(request, 'userprofile/my_account.html')
+    user_profile = request.user.userprofile
+    return render(request, 'userprofile/my_account.html', {'user_profile': user_profile})
 
 
 def register(request):
