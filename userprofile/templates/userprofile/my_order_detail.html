@@ -8,26 +8,25 @@
 <h1 class="text-2xl bg-green-600 text-white rounded-lg p-2 mt-5 mb-5 text-center">Produtos encontrados</h1>
 
 <div class="flex">
-    <div class="w-1/4 text-center bg-black text-white p-2"><strong>Local</strong></div>
+    <div class="w-1/4 text-center bg-black text-white p-2"><strong>Data</strong></div>
     <div class="w-1/4 text-center bg-black text-white p-2"><strong>Produto</strong></div>
     <div class="w-1/4 text-center bg-black text-white p-2"><strong>Quantidade</strong></div>
     <div class="w-1/4 text-center bg-black text-white p-2"><strong>Preço</strong></div>
 </div>
 
 {% for item in order.items.all %}
-    {% if item.product.user == request.user %}
+
 <div class="flex">
-    <div class="w-1/4 text-center bg-green-100 p-2">{{ item.product.shelf }}</div>
+    <div class="w-1/4 text-center bg-green-100 p-2">{{ item.product.created_at }}</div>
     <div class="w-1/4 text-center bg-green-100 p-2">{{ item.product.title }}</div>
     <div class="w-1/4 text-center bg-green-100 p-2">{{ item.quantity }}</div>
     <div class="w-1/4 text-center bg-green-100 p-2">{{ item.price }}</div>
 </div>
 
-{% endif %}
 {% endfor %}
     <div class="text-center mt-8">
-        <a href="{% url 'my_shop' %}" class="bg-blue-500 hover:bg-green-500 text-white py-2 px-4 rounded-lg">
-            Voltar à Área do Vendedor
+        <a href="{% url 'my_account' %}" class="bg-blue-500 hover:bg-green-500 text-white py-2 px-4 rounded-lg">
+            Voltar ao perfil
         </a>
     </div>
 

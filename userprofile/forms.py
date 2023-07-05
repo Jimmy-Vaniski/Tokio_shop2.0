@@ -4,29 +4,17 @@ from .models import UserProfile
 
 
 class UserForm(forms.ModelForm):
-    password1 = forms.CharField(
-        label='Password',
-        widget=forms.PasswordInput(attrs={
-            'class': 'w-full p-4 border border-green-600 rounded-md h-8',
-            'placeholder': 'Digite sua senha',
-        })
-    )
-
-    password2 = forms.CharField(
-        label='Password Confirmation',
-        widget=forms.PasswordInput(attrs={
-            'class': 'w-full p-4 border border-green-600 rounded-md h-8',
-            'placeholder': 'Confirme sua senha',
-        })
-    )
-
     class Meta:
         model = User
-        fields = ['username', 'password1', 'password2', 'email']
+        fields = ['username', 'password', 'email']
         widgets = {
             'username': forms.TextInput(attrs={
                 'class': 'w-full p-4 border border-green-600 rounded-md h-8',
                 'placeholder': 'Digite seu nome de usuário',
+            }),
+            'password': forms.PasswordInput(attrs={
+                'class': 'w-full p-4 border border-green-600 rounded-md h-8',
+                'placeholder': 'Digite sua senha',
             }),
             'email': forms.EmailInput(attrs={
                 'class': 'w-full p-4 border border-green-600 rounded-md h-8',

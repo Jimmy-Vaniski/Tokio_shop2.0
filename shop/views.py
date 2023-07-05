@@ -52,7 +52,7 @@ def check_to_buy(request):
                         'product_data': {
                             'name': product.title,
                         },
-                        'unit_amount': int(product.price)
+                        'unit_amount': int(product.price * 100)
                     },
                     'quantity': quantity
                 })

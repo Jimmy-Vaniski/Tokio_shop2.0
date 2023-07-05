@@ -62,7 +62,6 @@ class Product(models.Model):
             else:
                 return 'media/suport/PRODUTO-SEM-IMAGEM.jpg'
 
-
     def create_thumbnail(self, image, size=(200, 200)):
         img = Image.open(image)
         img.convert('RGB')

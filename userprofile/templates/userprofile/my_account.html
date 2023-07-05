@@ -1,3 +1,5 @@
+<!-- Perfil.html -->
+
 {% extends 'core/base.html' %}
 {% load static %}
 
@@ -7,99 +9,202 @@ Meu cadastro
 
 {% block content %}
 <style>
-    .user-profile-container {
-        border: 1px solid #ccc;
-        padding: 10px;
-        margin-bottom: 20px;
-    }
-
-    .user-profile-field {
-        font-size: 20px;
+    /* Estilo para os botões */
+    .alinhamento {
         display: flex;
     }
 
+    .first {
+        margin-top: 50
+    }
+
+    .sidebar a {
+        display: block;
+        width: 180px; /* Largura dos botões */
+        padding: 10px;
+        color: #fff;
+        text-decoration: none;
+        background-color: black;
+        margin-bottom: 5px;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    .sidebar a:hover {
+        background-color: orange;
+    }
+
+    .sidebar .btn-sair {
+        background-color: #c0392b;
+    }
+
+    /* Estilo para o container de dados */
+    .main-content {
+
+        max-width: 100%;
+        margin-left: 30px;
+        padding: 20px;
+    }
+
+    .user-profile-container {
+        width: 100%;
+        border: 1px solid #ccc;
+        padding: 10px;
+    }
+
+    .user-profile-field {
+    display: flex;
+    width: 600px;
+    align-items: center;
+    margin-bottom: 5px;
+    }
+
     .user-profile-label {
-        width: 33.33%;
+        flex-basis: 33%; /* 33% da largura do container flexível */
         font-weight: bold;
-        margin-bottom:5px
     }
 
     .user-profile-value {
-        width: 66.66%;
+        flex-basis: 66%; /* 66% da largura do container flexível */
     }
 
-    .vendor-details-container {
-        border: 1px solid #ccc;
-        padding: 10px;
-        margin-top: 10px;
-    }
 </style>
-<div class="bg-green-200 mt-6 mb-10">
-        <h1 class="text-3xl font-semibold text-center">Meu Perfil</h1>
+
+    <div class="alinhamento">
+        <div class="sidebar">
+            <ul>
+                <li class="first"><a href="{% url 'frontpage' %}">Home</a></li>
+                <li><a  id="btnMeusDados">Meus Dados</a></li>
+                <li><a  id="btnMinhasCompras">Minhas Compras</a></li>
+                <li><a href="#">Estatisticas</a></li>
+                <li><a href="{% url 'logout' %}" class="btn-sair">Sair</a></li>
+            </ul>
         </div>
 
-
-<div class="user-profile-container">
-    {% if user_profile %}
-        <div class="user-profile-field">
-            <div class="user-profile-label">Nome:</div>
-            <div class="user-profile-value">{{ user_profile.nome }}</div>
-        </div>
-        <div class="user-profile-field">
-            <div class="user-profile-label">Apelido:</div>
-            <div class="user-profile-value">{{ user_profile.apelido }}</div>
-        </div>
-        <div class="user-profile-field">
-            <div class="user-profile-label">Nif:</div>
-            <div class="user-profile-value">{{ user_profile.Nif }}</div>
-        </div>
-        <div class="user-profile-field">
-            <div class="user-profile-label">Endereço:</div>
-            <div class="user-profile-value">{{ user_profile.endereco }}</div>
-        </div>
-        <div class="user-profile-field">
-            <div class="user-profile-label">CEP:</div>
-            <div class="user-profile-value">{{ user_profile.cep }}</div>
-        </div>
-        <div class="user-profile-field">
-            <div class="user-profile-label">Telefone:</div>
-            <div class="user-profile-value">{{ user_profile.telefone }}</div>
-        </div>
-        <div class="user-profile-field">
-            <div class="user-profile-label">É vendedor?</div>
-            <div class="user-profile-value">{% if user_profile.is_vendor %}Sim{% else %}Não{% endif %}</div>
-        </div>
-        {% if user_profile.is_vendor %}
-            <div class="vendor-details-container">
-                <div class="user-profile-field">
-                    <div class="user-profile-label">Nome da Empresa:</div>
-                    <div class="user-profile-value">{{ user_profile.nome_empresa }}</div>
-                </div>
-                <div class="user-profile-field">
-                    <div class="user-profile-label">NIF da Empresa:</div>
-                    <div class="user-profile-value">{{ user_profile.nif_empresa }}</div>
-                </div>
-                <div class="user-profile-field">
-                    <div class="user-profile-label">Endereço da Empresa:</div>
-                    <div class="user-profile-value">{{ user_profile.endereco_empresa }}</div>
-                </div>
-                <div class="user-profile-field">
-                    <div class="user-profile-label">CEP da Empresa:</div>
-                    <div class="user-profile-value">{{ user_profile.cep_empresa }}</div>
-                </div>
-                <div class="user-profile-field">
-                    <div class="user-profile-label">Telefone da Empresa:</div>
-                    <div class="user-profile-value">{{ user_profile.telefone_empresa }}</div>
-                </div>
-                <div class="user-profile-field">
-                    <div class="user-profile-label">Email da Empresa:</div>
-                    <div class="user-profile-value">{{ user_profile.email_empresa }}</div>
+        <div class="main-content">
+            <!-- Conteúdo da seção "Meus Dados" -->
+            <div id="meusDados" style="display: none; ">
+                <h2 class="text-2xl mb-4 mt-6">Meus Dados</h2>
+                <div class="user-profile-container">
+                    {% if user_profile %}
+                        <div class="user-profile-field">
+                            <div class="user-profile-label ">Nome:</div>
+                            <div class="user-profile-value ">{{ user_profile.nome }}</div>
+                        </div>
+                        <div class="user-profile-field">
+                            <div class="user-profile-label">Apelido:</div>
+                            <div class="user-profile-value">{{ user_profile.apelido }}</div>
+                        </div>
+                        <div class="user-profile-field">
+                            <div class="user-profile-label">Nif:</div>
+                            <div class="user-profile-value">{{ user_profile.Nif }}</div>
+                        </div>
+                        <div class="user-profile-field">
+                            <div class="user-profile-label">Endereço:</div>
+                            <div class="user-profile-value">{{ user_profile.endereco }}</div>
+                        </div>
+                        <div class="user-profile-field">
+                            <div class="user-profile-label">CEP:</div>
+                            <div class="user-profile-value">{{ user_profile.cep }}</div>
+                        </div>
+                        <div class="user-profile-field">
+                            <div class="user-profile-label">Telefone:</div>
+                            <div class="user-profile-value">{{ user_profile.telefone }}</div>
+                        </div>
+                        <div class="user-profile-field">
+                            <div class="user-profile-label">É vendedor?</div>
+                            <div class="user-profile-value">{% if user_profile.is_vendor %}Sim{% else %}Não{% endif %}</div>
+                        </div>
+                        {% if user_profile.is_vendor %}
+                            <div class="vendor-details-container">
+                                <div class="user-profile-field">
+                                    <div class="user-profile-label">Nome da Empresa:</div>
+                                    <div class="user-profile-value">{{ user_profile.nome_empresa }}</div>
+                                </div>
+                                <div class="user-profile-field">
+                                    <div class="user-profile-label">NIF da Empresa:</div>
+                                    <div class="user-profile-value">{{ user_profile.nif_empresa }}</div>
+                                </div>
+                                <div class="user-profile-field">
+                                    <div class="user-profile-label">Endereço da Empresa:</div>
+                                    <div class="user-profile-value">{{ user_profile.endereco_empresa }}</div>
+                                </div>
+                                <div class="user-profile-field">
+                                    <div class="user-profile-label">CEP da Empresa:</div>
+                                    <div class="user-profile-value">{{ user_profile.cep_empresa }}</div>
+                                </div>
+                                <div class="user-profile-field">
+                                    <div class="user-profile-label">Telefone da Empresa:</div>
+                                    <div class="user-profile-value">{{ user_profile.telefone_empresa }}</div>
+                                </div>
+                                <div class="user-profile-field">
+                                    <div class="user-profile-label">Email da Empresa:</div>
+                                    <div class="user-profile-value">{{ user_profile.email_empresa }}</div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <p class="mt-4 py-4 px-8 bg-gray-300">Nenhum perfil encontrado.</p>
+                    {% endif %}
                 </div>
             </div>
-        {% endif %}
-    {% endif %}
-</div>
+            <!-- Conteúdo da seção "Minhas Compras" -->
+            <div id="minhasCompras" style="display: none; width: 600px; margin-top: 20px;">
+                <h2 class="text-2xl">Minhas Compras</h2>
+                {% if user.orders.exists %}
+                    <div>
+                        <div class="flex bg-green-200" style="margin-top: 20px;">
+                            <div class="w-1/6 text-center "><strong>ID</strong></div>
+                            <div class="w-3/6 text-center "><strong>Produto</strong></div>
+                            <div class="w-1/6 text-center "><strong>Quantidade</strong></div>
+                            <div class="w-1/6 text-center "><strong>Preço</strong></div>
+                        </div>
+                        {% for order in user.orders.all %}
+                            {% for order_item in order.items.all %}
+                                <div class="flex mt-2">
+                                    <div class="w-1/6 text-center ">
+                                        <button class="text-white bg-yellow-600 rounded-xl font-bold px-1 py-1 text-sm" type="button">
+                                            <a href="{% url 'my_order_detail' order.id %}">{{ order_item.id }}</a>
+                                        </button>
+                                    </div>
 
-<a href="{% url 'logout' %}" class="mt-8 inline-block py-4 px-8 bg-red-400 text-white">Sair</a>
+                                    <div class="w-3/6 " ><a class="ml-10">{{ order_item.product.title }}</a></div>
+                                    <div class="w-1/6 text-center">{{ order_item.quantity }}</div>
+                                    <div class="w-1/6 text-right"><a class="mr-3">{{ order_item.price }} €</a> </div>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        <hr class="my-4">
+                    </div>
+                {% else %}
+                    <p class="mt-4 py-4 px-8 bg-gray-300">Você ainda não possui pedidos.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <script>
+        function showMeusDados() {
+            var meusDados = document.getElementById("meusDados");
+            var minhasCompras = document.getElementById("minhasCompras");
+            meusDados.style.display = "block";
+            minhasCompras.style.display = "none";
+        }
+
+        function showMinhasCompras() {
+            var meusDados = document.getElementById("meusDados");
+            var minhasCompras = document.getElementById("minhasCompras");
+            meusDados.style.display = "none";
+            minhasCompras.style.display = "block";
+        }
+
+        document.getElementById("btnMeusDados").addEventListener("click", function () {
+            showMeusDados();
+        });
+
+        document.getElementById("btnMinhasCompras").addEventListener("click", function () {
+            showMinhasCompras();
+        });
+    </script>
 
 {% endblock %}
+

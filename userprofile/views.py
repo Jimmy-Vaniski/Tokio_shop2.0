@@ -1,16 +1,30 @@
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.db.models import F, Sum
-from django.contrib.auth.forms import UserCreationForm
 from django.utils.text import slugify
 from shop.models import Product, Order, OrderItem, Category
-from .models import UserProfile
 from django.contrib import messages
 from shop.forms import ProductForm
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from .forms import UserForm, UserProfileForm
+from django.contrib.auth.views import LoginView
+from django.http import HttpResponse
+
+
+class CustomLoginView(LoginView):
+    template_name = 'userprofile/login.html'
+
+    def form_valid(self, form):
+        # Chama o método form_valid da classe pai para autenticar o usuário
+        response = super().form_valid(form)
+
+        # Verifica se o usuário é um administrador (superusuário)
+        if self.request.user.is_superuser:
+            return redirect('admin:index')  # Redireciona para a área de administração do Django
+        else:
+            return response  # Continua com o comportamento padrão para outros usuários
 
 
 def vendor_details(request, pk):
@@ -44,11 +58,22 @@ def statistics(request):
     return render(request, 'userprofile/statistics.html', context)
 
 
-
 @login_required
 def order_detail(request, pk):
     order = get_object_or_404(Order, pk=pk)
     return render(request, 'userprofile/order_detail.html', {'order': order})
+
+
+@login_required
+def my_order_detail(request, pk):
+    order = get_object_or_404(Order, pk=pk)
+
+    # Verifica se o usuário logado é o mesmo usuário associado ao pedido
+    if order.created_by != request.user:
+        # Caso não seja, você pode redirecionar o usuário ou exibir uma mensagem de erro
+        return HttpResponse("Você não tem permissão para visualizar este pedido.")
+
+    return render(request, 'userprofile/my_order_detail.html', {'order': order})
 
 
 @login_required
@@ -91,7 +116,8 @@ def edit_product(request, pk):
             return redirect('my_shop')
     else:
         form = ProductForm(instance=product)
-    return render(request, 'userprofile/product_form.html', {'title': 'Editar Produto', 'product': product, 'form': form})
+    return render(request, 'userprofile/product_form.html',
+                  {'title': 'Editar Produto', 'product': product, 'form': form})
 
 
 @login_required
@@ -115,7 +141,10 @@ def register(request):
         profile_form = UserProfileForm(request.POST)
 
         if user_form.is_valid() and profile_form.is_valid():
-            user = user_form.save()
+            user = user_form.save(commit=False)
+            user.set_password(user_form.cleaned_data['password'])
+            user.save()
+
             profile = profile_form.save(commit=False)
             profile.user = user
             profile.save()
