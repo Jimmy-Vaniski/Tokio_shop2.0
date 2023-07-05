@@ -41,6 +41,29 @@ def my_shop(request):
 
 
 @login_required
+def my_statistics(request):
+    # Filtra as compras feitas pelo usuário logado
+    user_orders = Order.objects.filter(created_by=request.user)
+
+    # Agrupa os itens das compras pelo produto e conta a quantidade comprada
+    user_top_products = OrderItem.objects.filter(order__in=user_orders) \
+                                          .values('product__title') \
+                                          .annotate(total_quantity=Sum('quantity')) \
+                                          .order_by('-total_quantity')[:5]
+
+    # Encontra as categorias mais compradas pelo usuário
+    user_top_categories = OrderItem.objects.filter(order__in=user_orders) \
+                                            .values('product__category__title') \
+                                            .annotate(total_quantity=Sum('quantity')) \
+                                            .order_by('-total_quantity')[:5]
+
+    return render(request, 'userprofile/my_statistics.html', {
+        'user_top_products': user_top_products,
+        'user_top_categories': user_top_categories,
+    })
+
+
+@login_required
 def statistics(request):
     top_products = Product.objects.annotate(total_quantity=Sum('items__quantity')).order_by('-total_quantity')[:5]
 

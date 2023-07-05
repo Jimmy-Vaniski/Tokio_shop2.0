@@ -1,0 +1,71 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Estatísticas{% endblock %}
+
+{% block content %}
+    <div class="statistic-title">
+        <h1 class="text-4xl text-black text-center py-6 mb-5 bg-green-100">Estatísticas</h1>
+    </div>
+
+    <div class="chart-container">
+        <div class="top-products-chart">
+            <h2 class="text-2xl mt-10">Produtos Mais Comprados</h2>
+            <div id="user-top-products-chart"></div>
+        </div>
+
+        <div class="top-categories-chart">
+            <h2 class="text-2xl mt-10">Categorias Mais Compradas</h2>
+            <div id="user-top-categories-chart"></div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {packages: ['corechart']});
+        google.charts.setOnLoadCallback(drawUserTopProductsChart);
+        google.charts.setOnLoadCallback(drawUserTopCategoriesChart);
+
+        function drawUserTopProductsChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Produto');
+            data.addColumn('number', 'Quantidade Comprada');
+            data.addRows([
+                {% for product in user_top_products %}
+                ['{{ product.product__title }}', {{ product.total_quantity }}],
+                {% endfor %}
+            ]);
+
+            var options = {
+                width: 600,
+                height: 400,
+                legend: { position: 'none' },
+                vAxis: { title: 'Quantidade Comprada' },
+                hAxis: { title: 'Produto' },
+            };
+
+            var chart = new google.visualization.ColumnChart(document.getElementById('user-top-products-chart'));
+            chart.draw(data, options);
+        }
+
+            function drawUserTopCategoriesChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Categoria');
+            data.addColumn('number', 'Quantidade Comprada');
+            data.addRows([
+                {% for category in user_top_categories %}
+                ['{{ category.product__category__title }}', {{ category.total_quantity }}],
+                {% endfor %}
+            ]);
+
+            var options = {
+                width: 600,
+                height: 400,
+                legend: { position: 'right' },
+                tooltip: { text: 'percentage' },
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('user-top-categories-chart'));
+            chart.draw(data, options);
+        }
+    </script>
+{% endblock %}
