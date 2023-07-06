@@ -4,10 +4,16 @@
 
 {% block content %}
     <div class="statistic-title">
-        <h1 class="text-4xl text-black text-center py-6 mb-5 bg-green-100">Estatísticas</h1>
+        <h1 class="text-4xl text-black text-center py-6 mb-5 bg-green-200">Estatísticas</h1>
     </div>
 
     <div class="chart-container">
+        <div class="bg-orange-300 py-3" >
+            <h2 class="text-2xl ml-5 mb-3">Valores</h2>
+            <p class="text-2xl ml-5">Total das Compras: € {{ total_purchases }}</p>
+            <p class="text-2xl ml-5">Valor sem Imposto: € {{ total_without_tax }}</p>
+            <p class="text-2xl ml-5">Valor do Imposto: € {{ tax_amount }}</p>
+        </div>
         <div class="top-products-chart">
             <h2 class="text-2xl mt-10">Produtos Mais Comprados</h2>
             <div id="user-top-products-chart"></div>

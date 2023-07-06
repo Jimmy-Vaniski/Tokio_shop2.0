@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from .forms import UserForm, UserProfileForm
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponse
+from decimal import Decimal
 
 
 class CustomLoginView(LoginView):
@@ -45,6 +46,22 @@ def my_statistics(request):
     # Filtra as compras feitas pelo usuário logado
     user_orders = Order.objects.filter(created_by=request.user)
 
+    # Calcula o total de todas as compras
+    total_purchases = user_orders.aggregate(total=Sum('total_amount'))['total']
+    total_purchases = float(total_purchases) if total_purchases else 0.0
+
+    # Calcula o valor correspondente a 23% do valor total
+    tax_percentage = 0.23
+    tax_amount = Decimal(total_purchases) * Decimal(tax_percentage)
+
+    # Calcula o valor sem o imposto
+    total_without_tax = total_purchases - float(tax_amount)
+
+    # Reduz o número de casas decimais para 2
+    total_purchases = round(total_purchases, 2)
+    total_without_tax = round(total_without_tax, 2)
+    tax_amount = round(float(tax_amount), 2)
+
     # Agrupa os itens das compras pelo produto e conta a quantidade comprada
     user_top_products = OrderItem.objects.filter(order__in=user_orders) \
                                           .values('product__title') \
@@ -57,11 +74,15 @@ def my_statistics(request):
                                             .annotate(total_quantity=Sum('quantity')) \
                                             .order_by('-total_quantity')[:5]
 
-    return render(request, 'userprofile/my_statistics.html', {
+    context = {
         'user_top_products': user_top_products,
         'user_top_categories': user_top_categories,
-    })
+        'total_purchases': total_purchases,
+        'total_without_tax': total_without_tax,
+        'tax_amount': tax_amount,
+    }
 
+    return render(request, 'userprofile/my_statistics.html', context)
 
 @login_required
 def statistics(request):
