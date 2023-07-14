@@ -1,0 +1,537 @@
+{% extends "admin/base.html" %}
+
+{% comment %} {% load i18n  eatn_tags static %} {% endcomment %}
+
+{% load i18n %}
+
+{% load static %}
+
+
+{% block title %}{% trans "SHOP ADMIN " %}{% endblock %}
+
+{% block extrastyle %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'admin/admin_color.css' %}"/>
+{% endblock %}
+
+{% block branding %}
+    <h1 id="site-name">{% trans "Estatísticas | ADMIN" %}</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+
+{% block content_subtitle %}
+
+    <div class="statistic-title">
+        <h1>Estatísticas do Administrador</h1>
+    </div>
+
+    <div class="container">
+        <div class="menu-container">
+            <button class="custom-button" id="btnProdutosMaisVendidos" title="Produtos mais vendidos">P M V</button>
+            <button class="custom-button" id="btnCategoriasMaisVendidas" title="Categorias mais vendidas">C M V</button>
+            <button class="custom-button" id="btnVendasFeitas" title="Vendas realizadas">Vendas Feitas</button>
+            <button class="custom-button" id="btnLowStock" title="Produtos com Estoque baixo">Estoque baixo</button>
+            <button class="custom-button" id="btnTopBuyers" title="Top Compradores">Top Compradores</button>
+        </div>
+
+        <div class="content-container">
+            <div class="chart-container">
+                <div class="top-products-chart" id="top-products-chart-container" style="display: none;">
+                    <h2>Produtos Mais Vendidos</h2>
+                    <div id="top-products-chart" ></div>
+                </div>
+
+                <div class="category-sales-chart" id="category-sales-chart-container" style="display: none;">
+                    <h2 class="text-xl mt-10">Porcentagem de Vendas por Categoria</h2>
+                    <div id="category-sales-chart"></div>
+                </div>
+                <div id="TodosOsPedidos" style="display: none;">
+                    <h2>Todos os Pedidos</h2>
+                    {% if order_items %}
+                        <div>
+                            <div class="table-header">
+                                <div class="col-id">ID</div>
+                                <div class="col-local">Local</div>
+                                <div class="col-produto">Produto</div>
+                                <div class="col-quantidade">Quantidade</div>
+                                <div class="col-preco">Preço</div>
+                            </div>
+                            {% for order_item in order_items %}
+                                <div class="order-item">
+                                    <div class="custom-style">
+                                        <button class="link-style" type="button">
+                                            <a  href="{% url 'order_detail' order_item.order.id %}">{{ order_item.id }}</a>
+                                        </button>
+                                    </div>
+                                    <div class="order-item-location">{{ order_item.product.shelf }}</div>
+                                    <div class="order-item-product">{{ order_item.product.title }}</div>
+                                    <div class="order-item-quantity flex justify-center">{{ order_item.quantity }}</div>
+                                    <div class="order-item-price text-right">€ : {{ order_item.price }}</div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <h2>Você ainda não possui pedidos.</h2>
+                    {% endif %}
+                </div>
+                <div id="low-stock-container" style="display: none;">
+                    {% if low_stock_products %}
+                        <div class="low-stock-header">
+                            <p class="low-stock-text">Atenção, produtos com estoque abaixo do ideal. Recomendado repor esses itens.</p>
+                        </div>
+
+                        <table class="low-stock-table">
+                            <thead>
+                                <tr>
+                                    <th class="low-stock-column column-a">Id produto</th>
+                                    <th class="low-stock-column column-b">Nome produto</th>
+                                    <th class="low-stock-column column-d">Estoque atual</th>
+                                    <th class="low-stock-column column-c">Local do item</th>
+                                </tr>
+                            </thead>
+                            <tbody class="celulas">
+                                {% for product in low_stock_products %}
+                                    <tr>
+                                        <td class="low-stock-cell column-a">{{ product.id }}</td>
+                                        <td class="low-stock-cell column-b">{{ product.title }}</td>
+                                        <td class="low-stock-cell column-d">{{ product.stock }}</td>
+                                        <td class="low-stock-cell column-c">{{ product.shelf }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <div class="low-stock-header">
+                            <p class="low-stock-text">O estoque está saudável. Nenhum produto com estoque abaixo do ideal.</p>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="buyers-container custom-hidden" id="buyers-container">
+                    {% if top_buyers %}
+                        <div class="buyers-content">
+                            <h2 class="buyers-heading">Top 5 Buyers</h2>
+                            <table class="buyers-table">
+                                <thead>
+                                    <tr>
+                                        <th class="buyers-column1">ID</th>
+                                        <th class="buyers-column2">Nome</th>
+                                        <th class="buyers-column3">Total de Compras</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for buyer in top_buyers %}
+                                        <tr>
+                                            <td class="buyers-cell1">{{ buyer.user.id }}</td>
+                                            <td class="buyers-cell2">{{ buyer.nome }}</td>
+                                            <td class="buyers-cell3">€ : {{ buyer.total_purchases }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p class="buyers-message">Nenhum comprador encontrado.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<style>
+
+    /* Estilo containers e menu lateral */
+
+    .container {
+        margin-top: 50px;
+        display: flex;
+    }
+
+    .menu-container {
+        width: 200px;
+        padding: 10px;
+        background-color: black;
+        border-radius: 10px;
+        color: white;
+    }
+
+    .menu-container .custom-button {
+        width: 100%;
+        padding: 10px;
+        background-color: black;
+        color: white;
+        font-size: 20px;
+        text-align: left;
+        border: none;
+        cursor: pointer;
+        margin-bottom: 5px;
+        border-radius: 10px;
+    }
+
+    .menu-container .custom-button:hover {
+        background-color: orange;
+    }
+
+    .content-container {
+        margin-top: -25px;
+        flex-grow: 1;
+        padding: 10px;
+        margin-left: 30px;
+    }
+
+    /* estilo tabela cabeçalho */
+
+    .table-header {
+        margin-top: 15px;
+        display: flex;
+        font-weight: bold;
+        margin-bottom: 25px;
+    }
+
+    .table-header > div {
+        flex: 1;
+        text-align: center;
+    }
+
+    .col-id {
+        max-width: 100px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .col-local {
+        max-width: 140px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .col-produto {
+        max-width: 300px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .col-quantidade {
+        max-width: 100px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .col-preco {
+        max-width: 100px;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Estilo linhas da coluna */
+
+   .order-item {
+        display: flex;
+        margin-top: 2px;
+
+    }
+
+   .custom-style {
+        width: 100px;
+        text-align: center;
+    }
+
+   .link-style {
+        transition: background-color 0.3s ease;
+        background: black;
+        border-radius:10px;
+    }
+
+   .link-style:hover {
+        background-color: blue;
+    }
+
+   .link-style a {
+        font-weight: bold;
+        color: white;
+    }
+
+
+
+   .order-item-location {
+        width: 140px;
+        text-align: center;
+    }
+
+   .order-item-product {
+        width: 300px;
+        text-align: center;
+    }
+
+   .order-item-quantity {
+        width: 100px;
+        text-align: center;
+    }
+
+   .order-item-price {
+        width: 100px;
+        text-align: left;
+    }
+
+    /* estilo do lista de produtos em baixo estoque */
+
+   #low-stock-container {
+        margin-top: 20px;
+        padding: 10px;
+        border-radius: 5px;
+        width: 700px;
+    }
+
+   .low-stock-header {
+        background-color: #ffcccc;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+   .low-stock-text {
+        font-weight: bold;
+        color: red;
+        text-align: center;
+        font-size: 16px;
+    }
+
+
+   .low-stock-table {
+
+    }
+
+   .low-stock-column {
+        text-align: center;
+        font-size: 16px;
+        background:
+        font-weight: bold;
+        color: white;
+        padding: 10px;
+    }
+
+   .low-stock-cell {
+        text-align: center;
+        font-size: 14px;
+        color: white;
+        padding: 10px;
+    }
+
+   .column-a {
+        width: 100px;
+    }
+
+   .column-b {
+        width: 300px;
+    }
+
+   .column-c {
+        width: 150px;
+    }
+
+   .column-d {
+        width: 100px;
+    }
+
+    /* estilo top compradores */
+
+    #buyers-container {
+        margin-top: -15px;
+        padding: 10px;
+    }
+
+   .buyers-content {
+
+        margin-top: 20px;
+    }
+
+
+
+   .buyers-table {
+        margin-top: 20px;
+
+        border-collapse: collapse;
+    }
+
+   .buyers-column1 {
+        padding: 8px;
+        font-size: 14px;
+        font-weight: bold;
+        width: 100px;
+    }
+
+   .buyers-column2 {
+        padding: 8px;
+        font-size: 14px;
+        font-weight: bold;
+        width: 200px;
+    }
+
+   .buyers-column3 {
+        padding: 8px;
+        font-size: 14px;
+        font-weight: bold;
+        width: 150px;
+    }
+
+   .buyers-cell1 {
+        padding: 8px;
+        border-bottom: 1px solid #ccc;
+        width: 100px;
+    }
+
+   .buyers-cell2 {
+        padding: 8px;
+        border-bottom: 1px solid #ccc;
+        width: 100px;
+    }
+   .buyers-cell3 {
+        padding: 8px;
+        border-bottom: 1px solid #ccc;
+        width: 100px;
+        color: red;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+   .buyers-message {
+
+        color: #999;
+    }
+
+</style>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { packages: ['corechart'] });
+
+        function drawTopProductsChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Produto', );
+            data.addColumn('number', 'Quantidade Vendida');
+            data.addRows([
+                {% for product in top_products %}
+                    ['{{ product.title }}', {{ product.total_quantity }}],
+                {% endfor %}
+            ]);
+
+            var options = {
+                width: 500,
+                height: 300,
+                legend: { position: 'none' },
+                vAxis: { title: 'Quantidade Vendida', textStyle: { color: 'blue' } },
+                hAxis: { title: 'Produto', textStyle: { color: 'blue' } },
+                fontSize: 14,
+            };
+
+
+            var chart = new google.visualization.ColumnChart(document.getElementById('top-products-chart'));
+            chart.draw(data, options);
+        }
+
+        function drawCategorySalesChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Categoria');
+            data.addColumn('number', 'Porcentagem');
+            data.addRows([
+                {% for category in categories %}
+                    ['{{ category.title }}', {{ category.percentage }}],
+                {% endfor %}
+            ]);
+
+            var options = {
+                width: 500,
+                height: 300,
+                is3D: true,
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('category-sales-chart'));
+            chart.draw(data, options);
+        }
+
+        google.charts.setOnLoadCallback(drawTopProductsChart);
+        google.charts.setOnLoadCallback(drawCategorySalesChart);
+
+        // Eventos de clique nos botões para exibir os conteúdos correspondentes
+
+document.getElementById('btnProdutosMaisVendidos').addEventListener('click', function() {
+    var topProductsChartContainer = document.getElementById('top-products-chart-container');
+    var categorySalesChartContainer = document.getElementById('category-sales-chart-container');
+    var todosOsPedidos = document.getElementById('TodosOsPedidos');
+    var lowStockContainer = document.getElementById('low-stock-container');
+    var buyersContainer = document.querySelector('.buyers-container');
+
+    topProductsChartContainer.style.display = 'block';
+    categorySalesChartContainer.style.display = 'none';
+    todosOsPedidos.style.display = 'none';
+    lowStockContainer.style.display = 'none';
+    buyersContainer.style.display = 'none';
+
+    drawTopProductsChart();
+});
+
+document.getElementById('btnCategoriasMaisVendidas').addEventListener('click', function() {
+    var topProductsChartContainer = document.getElementById('top-products-chart-container');
+    var categorySalesChartContainer = document.getElementById('category-sales-chart-container');
+    var todosOsPedidos = document.getElementById('TodosOsPedidos');
+    var lowStockContainer = document.getElementById('low-stock-container');
+    var buyersContainer = document.querySelector('.buyers-container');
+
+    topProductsChartContainer.style.display = 'none';
+    categorySalesChartContainer.style.display = 'block';
+    todosOsPedidos.style.display = 'none';
+    lowStockContainer.style.display = 'none';
+    buyersContainer.style.display = 'none';
+
+    drawCategorySalesChart();
+});
+
+document.getElementById('btnVendasFeitas').addEventListener('click', function() {
+    var topProductsChartContainer = document.getElementById('top-products-chart-container');
+    var categorySalesChartContainer = document.getElementById('category-sales-chart-container');
+    var todosOsPedidos = document.getElementById('TodosOsPedidos');
+    var lowStockContainer = document.getElementById('low-stock-container');
+    var buyersContainer = document.querySelector('.buyers-container');
+
+    topProductsChartContainer.style.display = 'none';
+    categorySalesChartContainer.style.display = 'none';
+    todosOsPedidos.style.display = todosOsPedidos.style.display === 'none' ? 'block' : 'none';
+    lowStockContainer.style.display = 'none';
+    buyersContainer.style.display = 'none';
+});
+
+document.getElementById('btnLowStock').addEventListener('click', function() {
+    var topProductsChartContainer = document.getElementById('top-products-chart-container');
+    var categorySalesChartContainer = document.getElementById('category-sales-chart-container');
+    var todosOsPedidos = document.getElementById('TodosOsPedidos');
+    var lowStockContainer = document.getElementById('low-stock-container');
+    var buyersContainer = document.querySelector('.buyers-container');
+
+    topProductsChartContainer.style.display = 'none';
+    categorySalesChartContainer.style.display = 'none';
+    todosOsPedidos.style.display = 'none';
+    lowStockContainer.style.display = 'block';
+    buyersContainer.style.display = 'none';
+});
+
+document.getElementById('btnTopBuyers').addEventListener('click', function() {
+    var topProductsChartContainer = document.getElementById('top-products-chart-container');
+    var categorySalesChartContainer = document.getElementById('category-sales-chart-container');
+    var todosOsPedidos = document.getElementById('TodosOsPedidos');
+    var lowStockContainer = document.getElementById('low-stock-container');
+    var buyersContainer = document.querySelector('.buyers-container');
+
+    topProductsChartContainer.style.display = 'none';
+    categorySalesChartContainer.style.display = 'none';
+    todosOsPedidos.style.display = 'none';
+    lowStockContainer.style.display = 'none';
+    buyersContainer.style.display = 'block';
+});
+
+
+
+    </script>
+
+{% endblock %}

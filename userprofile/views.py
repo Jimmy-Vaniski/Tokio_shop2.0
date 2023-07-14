@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import F, Sum
 from django.utils.text import slugify
 from shop.models import Product, Order, OrderItem, Category
+from .models import UserProfile
 from django.contrib import messages
 from shop.forms import ProductForm
 from django.shortcuts import get_object_or_404
@@ -12,6 +13,7 @@ from .forms import UserForm, UserProfileForm
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponse
 from decimal import Decimal
+from django.contrib.admin.views.decorators import staff_member_required
 
 
 class CustomLoginView(LoginView):
@@ -84,23 +86,6 @@ def my_statistics(request):
 
     return render(request, 'userprofile/my_statistics.html', context)
 
-@login_required
-def statistics(request):
-    top_products = Product.objects.annotate(total_quantity=Sum('items__quantity')).order_by('-total_quantity')[:5]
-
-    # Obter a quantidade total vendida de todos os produtos
-    total_quantity = Product.objects.aggregate(total_quantity=Sum('items__quantity'))['total_quantity']
-
-    # Obter a contagem de vendas por categoria
-    categories = Category.objects.annotate(total_quantity=Sum('products__items__quantity')).filter(total_quantity__gt=0)
-
-    # Calcular a porcentagem de vendas para cada categoria
-    for category in categories:
-        category.percentage = (category.total_quantity / total_quantity) * 100
-
-    context = {'top_products': top_products, 'categories': categories}
-    return render(request, 'userprofile/statistics.html', context)
-
 
 @login_required
 def order_detail(request, pk):
@@ -135,18 +120,6 @@ def add_product(request):
     else:
         form = ProductForm()
     return render(request, 'userprofile/product_form.html', {'title': 'Adicionar Produto', 'form': form})
-
-
-def low_stock_list(request):
-    low_stock_products = Product.objects.filter(stock__lte=0.2 * F('initial_stock'))
-    # teste para retornar no terminal se tenho retorno correto da função
-    '''for product in low_stock_products: 
-        print("Título: ", product.title)
-        print("Estoque: ", product.stock)
-        print("Estoque Inicial: ", product.initial_stock)
-        print("-------------------------")'''
-
-    return render(request, 'userprofile/low_stock_list.html', {'low_stock_products': low_stock_products})
 
 
 @login_required
@@ -201,3 +174,62 @@ def register(request):
         profile_form = UserProfileForm()
 
     return render(request, 'userprofile/register.html', {'user_form': user_form, 'profile_form': profile_form})
+
+
+def process_statistics():
+    top_products = Product.objects.annotate(total_quantity=Sum('items__quantity')).order_by('-total_quantity')[:5]
+
+    total_quantity = Product.objects.aggregate(total_quantity=Sum('items__quantity'))['total_quantity']
+
+    categories = Category.objects.annotate(total_quantity=Sum('products__items__quantity')).filter(total_quantity__gt=0)
+
+    for category in categories:
+        category.percentage = (category.total_quantity / total_quantity) * 100
+
+    return top_products, categories
+
+
+def process_low_stock_list():
+    low_stock_products = Product.objects.filter(stock__lte=0.2 * F('initial_stock'))
+    return low_stock_products
+
+
+@login_required
+def statistics(request):
+    top_products, categories = process_statistics()
+    low_stock_products = process_low_stock_list()
+
+    context = {'top_products': top_products, 'categories': categories, 'low_stock_products': low_stock_products}
+    return render(request, 'userprofile/statistics.html', context)
+
+
+def get_top_buyers():
+    top_buyers = UserProfile.objects.filter(is_vendor=False) \
+        .annotate(total_purchases=Sum('user__orders__total_amount')) \
+        .order_by('-total_purchases')[:5]
+
+    return top_buyers
+
+
+@staff_member_required
+def admin_statistics(request):
+    top_products, categories = process_statistics()
+    order_items = OrderItem.objects.all()
+    low_stock_products = process_low_stock_list()
+    top_buyers = get_top_buyers()
+
+    context = {
+        'top_products': top_products,
+        'categories': categories,
+        'order_items': order_items,
+        'low_stock_products': low_stock_products,
+        'top_buyers': top_buyers,
+    }
+    return render(request, 'userprofile/admin_statistics.html', context)
+
+
+def low_stock_list(request):
+    low_stock_products = process_low_stock_list()
+
+    return render(request, 'userprofile/low_stock_list.html', {'low_stock_products': low_stock_products})
+

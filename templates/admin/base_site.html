@@ -1,0 +1,34 @@
+{% extends "admin/base.html" %}
+
+{% comment %} {% load i18n  eatn_tags static %} {% endcomment %}
+
+{% load i18n %}
+
+{% load static %}
+
+
+{% block title %}{% trans "SHOP ADMIN " %}{% endblock %}
+
+{% block extrastyle %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'admin/admin_color.css' %}"/>
+{% endblock %}
+
+{% block branding %}
+    <h1 id="site-name">{% trans "Tokio Shop 2.0 | ADMIN" %}</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+<div id="content" class="{% block coltype %}colM{% endblock %}">
+    {% block content_title %}{% if title %}<h1>Administração da loja</h1>{% endif %}{% endblock %}
+
+      <br class="clear">
+    </div>
+{% block content_subtitle %}
+
+
+
+{% endblock %}
+
+

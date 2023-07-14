@@ -1,7 +1,8 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path
 from . import views
-from .views import low_stock_list, statistics, CustomLoginView, my_statistics
+from .views import low_stock_list, statistics, CustomLoginView, my_statistics, admin_statistics
+
 
 urlpatterns = [
     path('register/', views.register, name='register'),
@@ -20,6 +21,6 @@ urlpatterns = [
     path('low_stock_list/', low_stock_list, name='low_stock_list'),
     path('my_shop/statistics/', statistics, name='statistics'),
     path('vendors/<int:pk>/', views.vendor_details, name='vendor_details'),
-
+    path('admin_statistics/', admin_statistics, name='admin_statistics'),
 ]
 
