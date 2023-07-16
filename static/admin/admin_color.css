@@ -22,7 +22,7 @@ h1{
 body{
 
      background-image: url("../images/bg_admin.png");
-     background-repeat: no-repeat;
+     background-repeat: repeat;
      background-size: cover;
 
 
@@ -52,7 +52,7 @@ body{
 
 #header a:hover {
 
-    color: #ccc;
+    color: #fff;
 
 }
 
@@ -122,16 +122,16 @@ div.breadcrumbs a:focus, div.breadcrumbs a:hover {
 
     background: crimson;
 
-
-
 }
 
+
+
 .module p{
+    width: auto !important;
+}
 
-    background: crimson;
-
-
-
+.tr {
+    vertical-align: center;
 }
 
 .module h2, .inline-group h2 {
@@ -140,11 +140,27 @@ div.breadcrumbs a:focus, div.breadcrumbs a:hover {
 
 }
 
-#user-tools a:focus, #user-tools a:hover, #user-tools {
 
+#user-tools {
+    font-size: 15px;
+
+}
+
+#logout-form button{
+    font-size: 15px;
+
+}
+
+#user-tools a:focus, #user-tools a:hover {
+    border: 0;
     font-size: 15px;
     text-decoration: none;
     color: #ddd;
+
+}
+
+#changelist .actions {
+    width: auto !important;
 
 }
 
@@ -156,6 +172,9 @@ div.breadcrumbs a:focus, div.breadcrumbs a:hover {
 
 }
 
+.dashboard .module table th {
+    vertical-align: middle;
+}
 
 
 .calendar td.selected a {
@@ -194,7 +213,7 @@ fieldset.collapsed .collapse-toggle {
 
 a:link, a:visited {
 
-    color: #777;
+    color: white;
 
 }
 
@@ -213,7 +232,6 @@ table thead th.sorted .sortoptions a.sortremove:focus:after,
 table thead th.sorted .sortoptions a.sortremove:hover:after {
 
     color: #444;
-
 }
 
 
@@ -263,15 +281,11 @@ a.active.selector-chooseall:hover, a.active.selector-clearall:hover {
 
 
 #changelist-filter a:focus, #changelist-filter a:hover,
-
 #changelist-filter li.selected a:focus,
-#changelist-filter li.selected a:focus,
-
 #changelist-filter h2 {
 
     color: #222;
-    background: #red !important;
-    font-size: 20px;
+
 }
 
 
@@ -332,7 +346,9 @@ a.active.selector-chooseall:hover, a.active.selector-clearall:hover {
 
 }
 
-
+#content-related {
+    margin-top: -100px;
+}
 
 input[type=file]::-webkit-file-upload-button:hover {
 
@@ -379,6 +395,9 @@ p{
 
 }
 
+
+
+
 h2,li{
 
 color: wheat;
@@ -389,7 +408,9 @@ color: wheat;
 
     color: white;
     font-weight: bold;
+
 }
+
 
 div .datetime{
 
@@ -397,7 +418,5 @@ div .datetime{
 
 }
 
-.statistics .section{
-    font-size: 50px !important;
 
-}
+
